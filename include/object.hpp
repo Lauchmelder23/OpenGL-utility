@@ -6,7 +6,7 @@
 
 namespace oglu
 {
-	typedef struct {
+	typedef OGLU_API struct {
 		GLuint index;
 		GLint size;
 		GLenum type;

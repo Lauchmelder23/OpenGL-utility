@@ -20,6 +20,7 @@ file(GLOB_RECURSE source_files
 add_library(openglu SHARED 
 	${include_files}
 	${source_files}
+	"cpp.hint"
 )
 
 target_compile_definitions(openglu PRIVATE OGLU_BUILD_DLL)

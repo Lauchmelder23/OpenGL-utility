@@ -6,6 +6,7 @@
 
 #include "color.hpp"
 #include "object.hpp"
+#include "shader.hpp"
 
 namespace oglu
 {

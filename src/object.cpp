@@ -13,9 +13,9 @@ namespace oglu
 		VAO(0)
 	{
 		GLuint VBO;
-		glGenBuffers(1, &VBO);
+		//glGenBuffers(1, &VBO);
 
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
+		//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		//glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
 	}
 }

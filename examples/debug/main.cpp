@@ -47,7 +47,9 @@ int main(int argc, char** argv)
 		{ 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0 }
 	};
 
-	oglu::Object(vertices, sizeof(vertices), nullptr, 0, topology, sizeof(topology));
+	oglu::Object triangle(vertices, sizeof(vertices), nullptr, 0, topology, sizeof(topology));
+	
+	oglu::Shader shader("shaders/vertexShader.vert", "");
 
 
 	while (!glfwWindowShouldClose(window))
