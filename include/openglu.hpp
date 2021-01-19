@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 
 #include "color.hpp"
+#include "object.hpp"
 
 namespace oglu
 {

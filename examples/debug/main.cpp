@@ -37,6 +37,19 @@ int main(int argc, char** argv)
 	oglu::LoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	oglu::SetViewport(0, 0, windowSize, windowSize);
 
+	float vertices[] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f, 0.5f, 0.0f
+	};
+
+	oglu::VertexAttribute topology[] = {
+		{ 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0 }
+	};
+
+	oglu::Object(vertices, sizeof(vertices), nullptr, 0, topology, sizeof(topology));
+
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
