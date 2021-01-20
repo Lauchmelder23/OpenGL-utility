@@ -22,9 +22,17 @@ namespace oglu
 		Object(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
 
 		GLuint GetVAO() { return VAO; }
+		void Bind();
+		void Unbind();
+
+		void Draw();
+		void BindAndDraw();
 
 	private:
+		inline void RegisterVertexAttribPointer(GLuint index, const VertexAttribute& topology);
+
 		GLuint VAO;
+		GLsizei count;
 	};
 }
 

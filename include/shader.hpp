@@ -10,12 +10,15 @@ namespace oglu
 	{
 	public:
 		Shader(const char* vertexShaderFile, const char* fragmentShaderFile);
+		~Shader();
+
+		void Use();
 
 	private:
 		void LoadShaderSource(const char* filename, char** buffer);
 
 	private:
-		GLuint vertexShader, fragmentShader;
+		GLuint vertexShader, fragmentShader, program;
 	};
 }
 
