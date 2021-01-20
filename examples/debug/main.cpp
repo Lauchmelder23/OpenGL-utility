@@ -74,6 +74,7 @@ int main(int argc, char** argv)
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
+		shader->SetUniform("ourColor", &oglu::Color::Blue);
 		shader->Use();
 		square.BindAndDraw();
 
