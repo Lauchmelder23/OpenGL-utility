@@ -2,6 +2,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
+#include <exception>
 
 namespace oglu
 {
@@ -27,7 +28,8 @@ namespace oglu
 		stbi_uc* data = stbi_load(filename, &width, &height, &nrChannels, 0);
 		if (data == nullptr)
 		{
-			throw stbi_failure_reason();
+			std::string err = std::string(stbi_failure_reason());
+			throw std::runtime_error(err);
 		}
 
 		glGenTextures(1, &texture);

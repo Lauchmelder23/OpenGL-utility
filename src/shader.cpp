@@ -38,8 +38,10 @@ namespace oglu
 		if (!success)
 		{
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+			std::string err = ("Failed to compile shader " + std::string(vertexShaderFile) + "\n" + infoLog);
 			delete source;
-			throw std::exception(std::string("Failed to compile shader " + std::string(vertexShaderFile) + "\n" + infoLog).c_str());
+			delete infoLog;
+			throw std::runtime_error(err);
 		}
 		delete source;
 
@@ -54,8 +56,10 @@ namespace oglu
 		if (!success)
 		{
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+			std::string err = ("Failed to compile shader " + std::string(fragmentShaderFile) + "\n" + infoLog);
 			delete source;
-			throw std::exception(std::string("Failed to compile shader " + std::string(fragmentShaderFile) + "\n" + infoLog).c_str());
+			delete infoLog;
+			throw std::runtime_error(err);
 		}
 		delete source;
 
@@ -69,7 +73,9 @@ namespace oglu
 		if (!success)
 		{
 			glGetProgramInfoLog(program, 512, NULL, infoLog);
-			throw std::exception(std::string("Failed to link program.\n" + std::string(infoLog)).c_str());
+			std::string err = ("Failed to link program.\n" + std::string(infoLog));
+			delete infoLog;
+			throw std::runtime_error(err);
 		}
 
 		// Dispose of shader objects
@@ -443,9 +449,10 @@ namespace oglu
 		if (!file.good())
 		{
 			file.close();
-			throw std::exception(std::string("Failed to open shader file: " + std::string(filename)).c_str());
+			throw std::runtime_error(std::string("Failed to open shader file: " + std::string(filename)));
 		}
 
+		// TODO: This is just horrendous
 		std::string str((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 		(*buffer) = (char*)malloc(str.size() + 1);
 		memcpy(*buffer, str.c_str(), str.size());

@@ -10,6 +10,8 @@
 #define CORE_HPP
 
 #include <memory>
+#include <stdexcept>
+#include <string>
 #include <glad/glad.h>
 
 #ifdef OGLU_WIN32

@@ -9,7 +9,7 @@ namespace oglu
 	{
 		if (!gladLoadGLLoader(proc))
 		{
-			throw std::exception("Failed to initialize GLAD");
+			throw std::runtime_error("Failed to initialize GLAD");
 		}
 	}
 
