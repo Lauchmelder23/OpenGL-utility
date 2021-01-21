@@ -19,7 +19,7 @@ namespace oglu
 	 * 
 	 * @param[in] index Index of the texture unit (Note: This index is actually an offset to @p GL_TEXTURE0)
 	 */
-	void ActiveTexture(GLubyte index);
+	void OGLU_API ActiveTexture(GLubyte index);
 
 	/**
 	 * @brief An object representing an OpenGL Texture.

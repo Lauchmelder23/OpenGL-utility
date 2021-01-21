@@ -76,7 +76,8 @@ int main(int argc, char** argv)
 	}
 
 	// Create a texture
-	oglu::Texture texture = oglu::MakeTexture("assets/crate.jpg");
+	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
+	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
 
 	// Window loop
 	while (!glfwWindowShouldClose(window))
@@ -85,8 +86,15 @@ int main(int argc, char** argv)
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
+		oglu::ActiveTexture(0);
+		crate->Bind();
+		oglu::ActiveTexture(1);
+		opengl->Bind();
+
 		shader->Use();
-		texture->Bind();
+		shader->SetUniform("texture1", 0);
+		shader->SetUniform("texture2", 1);
+
 		square->BindAndDraw();
 
 		glfwSwapBuffers(window);

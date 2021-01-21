@@ -1,4 +1,5 @@
 #include "texture.hpp"
+#include <iostream>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
@@ -40,7 +41,18 @@ namespace oglu
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		GLenum pixelFormat;
+		switch (nrChannels)
+		{
+		case 3: pixelFormat = GL_RGB; break;
+		case 4:	pixelFormat = GL_RGBA; break;
+		default:
+			glDeleteTextures(1, &texture);
+			stbi_image_free(data);
+			throw std::runtime_error(std::string("Texture has unsupported pixel format: " + std::string(filename)));
+		}
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, pixelFormat, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
