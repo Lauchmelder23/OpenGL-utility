@@ -2,7 +2,6 @@
 #define SHADER_HPP
 
 #include <core.hpp>
-#include <glad/glad.h>
 
 namespace oglu
 {

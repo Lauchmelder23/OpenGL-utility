@@ -43,10 +43,10 @@ int main(int argc, char** argv)
 
 	// Create vertices for square
 	float vertices[] = {
-		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
-		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f // top left 
+		 0.5f,  0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,	1.0f, 0.0f,	// bottom right
+		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f, 0.0f,	0.0f, 1.0f  // top left 
 	};
 
 	unsigned int indices[] = { 
@@ -55,12 +55,13 @@ int main(int argc, char** argv)
 	};
 
 	oglu::VertexAttribute topology[] = {
-		{ 0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0 },
-		{ 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)) }
+		{ 0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0 },
+		{ 1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)) },
+		{ 2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)) }
 	};
 
 	// Make a square
-	oglu::Object square = oglu::MakeObject(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
+	oglu::VertexArray square = oglu::MakeObject(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
 
 	// Create a shader
 	oglu::Shader shader;
@@ -74,6 +75,9 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+	// Create a texture
+	oglu::Texture texture = oglu::MakeTexture("assets/crate.jpg");
+
 	// Window loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -81,8 +85,8 @@ int main(int argc, char** argv)
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		shader->SetUniform("ourColor", &oglu::Color::Transparent);
 		shader->Use();
+		texture->Bind();
 		square->BindAndDraw();
 
 		glfwSwapBuffers(window);

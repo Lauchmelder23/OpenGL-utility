@@ -2,13 +2,13 @@
 
 namespace oglu
 {
-	AbstractObject::AbstractObject(const AbstractObject& other) :
+	AbstractVertexArray::AbstractVertexArray(const AbstractVertexArray& other) :
 		VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), count(other.count)
 	{
 
 	}
 
-	AbstractObject::~AbstractObject()
+	AbstractVertexArray::~AbstractVertexArray()
 	{
 		glBindVertexArray(0);
 		glDeleteVertexArrays(1, &VAO);
@@ -16,13 +16,13 @@ namespace oglu
 		glDeleteBuffers(1, &EBO);
 	}
 
-	Object MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
+	VertexArray MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
 	{
-		AbstractObject* obj = new AbstractObject(vertices, verticesSize, indices, indicesSize, topology, topologySize);
-		return Object(obj);
+		AbstractVertexArray* obj = new AbstractVertexArray(vertices, verticesSize, indices, indicesSize, topology, topologySize);
+		return VertexArray(obj);
 	}
 
-	AbstractObject::AbstractObject(const GLfloat* vertices, size_t verticesSize, 
+	AbstractVertexArray::AbstractVertexArray(const GLfloat* vertices, size_t verticesSize, 
 					const GLuint* indices, size_t indicesSize, 
 					const VertexAttribute* topology, size_t topologySize) :
 		VAO(0), VBO(0), EBO(0), count(0)
@@ -51,29 +51,29 @@ namespace oglu
 		count = indicesSize / sizeof(GLuint);
 	}
 
-	void AbstractObject::Bind()
+	void AbstractVertexArray::Bind()
 	{
 		glBindVertexArray(VAO);
 	}
 
-	void AbstractObject::Unbind()
+	void AbstractVertexArray::Unbind()
 	{
 		glBindVertexArray(0);
 	}
 
-	void AbstractObject::Draw()
+	void AbstractVertexArray::Draw()
 	{
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (GLvoid*)0);
 	}
 
-	void AbstractObject::BindAndDraw()
+	void AbstractVertexArray::BindAndDraw()
 	{
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (GLvoid*)0);
 		glBindVertexArray(0);
 	}
 
-	void AbstractObject::RegisterVertexAttribPointer(GLuint index, const VertexAttribute& topology)
+	void AbstractVertexArray::RegisterVertexAttribPointer(GLuint index, const VertexAttribute& topology)
 	{
 		glVertexAttribPointer(topology.index, topology.size, topology.type, topology.normalized, topology.stride, topology.pointer);
 		glEnableVertexAttribArray(index);

@@ -2,6 +2,7 @@
 #define CORE_HPP
 
 #include <memory>
+#include <glad/glad.h>
 
 #ifdef OGLU_WIN32
 	#ifdef OGLU_BUILD_DLL

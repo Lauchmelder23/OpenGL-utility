@@ -1,12 +1,10 @@
 #ifndef OPENGLU_HPP
 #define OPENGLU_HPP
 
-#include "core.hpp"
-#include <glad/glad.h>
-
-#include "color.hpp"
-#include "object.hpp"
-#include "shader.hpp"
+#include <color.hpp>
+#include <object.hpp>
+#include <shader.hpp>
+#include <texture.hpp>
 
 namespace oglu
 {
