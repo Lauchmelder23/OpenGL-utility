@@ -282,6 +282,34 @@ namespace oglu
 		void SetUniform(GLint location,		const Color& v0, bool ignoreAlpha = false);
 
 		/**
+		 * @brief Set uniform sampler2D.
+		 *
+		 * Activates and binds the given texture, then sets the uniform.
+		 * Note: In many cases, using AbstractTexture::BindAs(GLbyte index) to activate and bind the textures 
+		 * seperately and then using SetUniform(GLint location, GLint v0) to set the uniform might
+		 * be more efficient.
+		 *
+		 * @param[in] name Name of the uniform
+		 * @param[in] v0 Value to set the uniform to
+		 * @param[in] index Index of the texture unit
+		 */
+		void SetUniform(const GLchar* name, const Texture& v0, GLbyte index = 0);
+
+		/**
+		 * @brief Set uniform color.
+		 *
+		 * Activates and binds the given texture, then sets the uniform
+		 * Note: In many cases, using AbstractTexture::BindAs(GLbyte index) to activate and bind the textures 
+		 * seperately and then using SetUniform(const GLchar* name, GLint v0) to set the uniform might
+		 * be more efficient.
+		 *
+		 * @param[in] location Location of the uniform
+		 * @param[in] v0 Value to set the uniform to
+		 * @param[in] ignoreAlpha Index of the texture unit
+		 */
+		void SetUniform(GLint location, const Texture& v0, GLbyte index = 0);
+
+		/**
 		 * @brief Set array of uniform float.
 		 *
 		 * @param[in] name Name of the uniform

@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <color.hpp>
+#include <texture.hpp>
 
 namespace oglu
 {
@@ -233,6 +234,17 @@ namespace oglu
 			glUniform3f(location, v0.r, v0.g, v0.b);
 		else
 			glUniform4f(location, v0.r, v0.g, v0.b, v0.a);
+	}
+
+	void AbstractShader::SetUniform(const GLchar* name, const Texture& v0, GLbyte index)
+	{
+		SetUniform(glGetUniformLocation(program, name), v0, index);
+	}
+
+	void AbstractShader::SetUniform(GLint location, const Texture& v0, GLbyte index)
+	{
+		v0->BindAs(index);
+		glUniform1i(location, index);
 	}
 
 	void AbstractShader::SetUniform1fv(const GLchar* name, GLsizei count, const GLfloat* value)
