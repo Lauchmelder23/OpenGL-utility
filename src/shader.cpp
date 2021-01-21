@@ -213,17 +213,17 @@ namespace oglu
 		glUniform4ui(location, v0, v1, v2, v3);
 	}
 
-	void AbstractShader::SetUniform(const GLchar* name, const Color* v0, bool ignoreAlpha)
+	void AbstractShader::SetUniform(const GLchar* name, const Color& v0, bool ignoreAlpha)
 	{
 		SetUniform(glGetUniformLocation(program, name), v0, ignoreAlpha);
 	}
 
-	void AbstractShader::SetUniform(GLint location, const Color* v0, bool ignoreAlpha)
+	void AbstractShader::SetUniform(GLint location, const Color& v0, bool ignoreAlpha)
 	{
 		if (ignoreAlpha)
-			glUniform3f(location, v0->r, v0->g, v0->b);
+			glUniform3f(location, v0.r, v0.g, v0.b);
 		else
-			glUniform4f(location, v0->r, v0->g, v0->b, v0->a);
+			glUniform4f(location, v0.r, v0.g, v0.b, v0.a);
 	}
 
 	void AbstractShader::SetUniform1fv(const GLchar* name, GLsizei count, const GLfloat* value)

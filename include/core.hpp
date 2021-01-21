@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   core.hpp
+ * \brief  Core includes and defines
+ * 
+ * \author Robert
+ * \date   January 2021
+ *********************************************************************/
+
 #ifndef CORE_HPP
 #define CORE_HPP
 

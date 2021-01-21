@@ -61,7 +61,7 @@ int main(int argc, char** argv)
 	};
 
 	// Make a square
-	oglu::VertexArray square = oglu::MakeObject(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
+	oglu::VertexArray square = oglu::MakeVertexArray(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
 
 	// Create a shader
 	oglu::Shader shader;

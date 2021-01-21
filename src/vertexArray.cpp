@@ -1,4 +1,4 @@
-#include "object.hpp"
+#include "vertexArray.hpp"
 
 namespace oglu
 {
@@ -16,7 +16,7 @@ namespace oglu
 		glDeleteBuffers(1, &EBO);
 	}
 
-	VertexArray MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
+	VertexArray MakeVertexArray(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
 	{
 		AbstractVertexArray* obj = new AbstractVertexArray(vertices, verticesSize, indices, indicesSize, topology, topologySize);
 		return VertexArray(obj);

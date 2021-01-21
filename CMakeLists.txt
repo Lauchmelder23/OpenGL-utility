@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(openglu)
+project(OpenGLUtility)
 
 set(build_examples ON CACHE BOOL "Build examples")
 set(build_documentation ON CACHE BOOL "Generate documentation")
@@ -43,8 +43,8 @@ target_include_directories(openglu PUBLIC
 if(${build_documentation})
 	configure_file(doxyfile.in ${CMAKE_BINARY_DIR}/doxyfile @ONLY)
     add_custom_target(openglu_doc ALL
-		COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_SOURCE_DIR}/doxyfile.in"
-        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+		COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_BINARY_DIR}/doxyfile"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Building documentation..."
 		VERBATIM
     )
