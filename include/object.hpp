@@ -35,7 +35,7 @@ namespace oglu
 
 		inline void RegisterVertexAttribPointer(GLuint index, const VertexAttribute& topology);
 
-		GLuint VAO;
+		GLuint VAO, VBO, EBO;
 		GLsizei count;
 	};
 

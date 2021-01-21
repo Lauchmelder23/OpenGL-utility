@@ -3,14 +3,17 @@
 namespace oglu
 {
 	AbstractObject::AbstractObject(const AbstractObject& other) :
-		VAO(other.VAO), count(other.count)
+		VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), count(other.count)
 	{
 
 	}
 
 	AbstractObject::~AbstractObject()
 	{
+		glBindVertexArray(0);
 		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBO);
+		glDeleteBuffers(1, &EBO);
 	}
 
 	Object MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
@@ -22,14 +25,11 @@ namespace oglu
 	AbstractObject::AbstractObject(const GLfloat* vertices, size_t verticesSize, 
 					const GLuint* indices, size_t indicesSize, 
 					const VertexAttribute* topology, size_t topologySize) :
-		VAO(0), count(0)
+		VAO(0), VBO(0), EBO(0), count(0)
 	{
 		topologySize /= sizeof(VertexAttribute);
 
-		GLuint VBO;
 		glGenBuffers(1, &VBO);
-
-		GLuint EBO;
 		glGenBuffers(1, &EBO);
 
 		glGenVertexArrays(1, &VAO);
