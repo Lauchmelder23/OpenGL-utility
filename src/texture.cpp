@@ -68,6 +68,12 @@ namespace oglu
 		glBindTexture(GL_TEXTURE_2D, texture);
 	}
 
+	void AbstractTexture::BindAs(GLbyte index)
+	{
+		glActiveTexture(GL_TEXTURE0 + index);
+		glBindTexture(GL_TEXTURE_2D, texture);
+	}
+
 	void AbstractTexture::Unbind()
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);

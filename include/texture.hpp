@@ -60,6 +60,16 @@ namespace oglu
 		void Bind();
 
 		/**
+		 * @brief Sets active texture and binds this texture.
+		 * 
+		 * In order to use multiple textures in the same shader the active texture unit needs to be specified.
+		 * This function first sets the active texture unit and then binds the texture.
+		 * 
+		 * @param[in] index Index of the texture unit (Note: This index is actually an offset to @p GL_TEXTURE0)
+		 */
+		void BindAs(GLbyte index);
+
+		/**
 		 * @brief Unbind this texture.
 		 */
 		void Unbind();

@@ -14,6 +14,9 @@
 namespace oglu
 {
 	class Color;
+	class AbstractTexture;
+
+	typedef std::shared_ptr<AbstractTexture> Texture;
 
 	/**
 	 * @brief An object representing an OpenGL Shader Program.

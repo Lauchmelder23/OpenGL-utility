@@ -40,6 +40,7 @@ namespace oglu
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 			std::string err = ("Failed to compile shader " + std::string(vertexShaderFile) + "\n" + infoLog);
 			delete source;
+			glDeleteShader(vertexShader);
 			throw std::runtime_error(err);
 		}
 		delete source;
@@ -57,6 +58,8 @@ namespace oglu
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 			std::string err = ("Failed to compile shader " + std::string(fragmentShaderFile) + "\n" + infoLog);
 			delete source;
+			glDeleteShader(vertexShader);
+			glDeleteShader(fragmentShader);
 			throw std::runtime_error(err);
 		}
 		delete source;
@@ -72,6 +75,9 @@ namespace oglu
 		{
 			glGetProgramInfoLog(program, 512, NULL, infoLog);
 			std::string err = ("Failed to link program.\n" + std::string(infoLog));
+			glDeleteShader(vertexShader);
+			glDeleteShader(fragmentShader);
+			glDeleteProgram(program);
 			throw std::runtime_error(err);
 		}
 

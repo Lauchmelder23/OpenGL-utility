@@ -86,10 +86,8 @@ int main(int argc, char** argv)
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		oglu::ActiveTexture(0);
-		crate->Bind();
-		oglu::ActiveTexture(1);
-		opengl->Bind();
+		crate->BindAs(0);
+		opengl->BindAs(1);
 
 		shader->Use();
 		shader->SetUniform("texture1", 0);
