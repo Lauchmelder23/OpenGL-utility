@@ -17,6 +17,7 @@ void processInput(GLFWwindow* window)
 
 int main(int argc, char** argv)
 {
+	// Setup GLFW
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -25,6 +26,7 @@ int main(int argc, char** argv)
 	const GLFWvidmode* screen = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	int windowSize = screen->height / 4 * 3;
 
+	// Create Window
 	GLFWwindow* window = glfwCreateWindow(windowSize, windowSize, "Debug", NULL, NULL);
 	if (window == nullptr)
 	{
@@ -33,11 +35,13 @@ int main(int argc, char** argv)
 		return -1;
 	}
 	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+	// glad stuff
 	oglu::LoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	oglu::SetViewport(0, 0, windowSize, windowSize);
 
-
+	// Create vertices for square
 	float vertices[] = {
 		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
 		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
@@ -54,9 +58,13 @@ int main(int argc, char** argv)
 		{ 0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0 },
 		{ 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)) }
 	};
-	
+
+	// Make a square
+	oglu::Object square = oglu::MakeObject(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
+
+	// Create a shader
 	oglu::Shader shader;
-	try 
+	try
 	{
 		shader = oglu::MakeShader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
 	}
@@ -66,8 +74,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	oglu::Object square = oglu::MakeObject(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
-
+	// Window loop
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
