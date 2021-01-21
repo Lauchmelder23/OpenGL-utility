@@ -1,6 +1,7 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
+#include <memory>
 #include <core.hpp>
 #include <glad/glad.h>
 
@@ -8,11 +9,12 @@ namespace oglu
 {
 	class Color;
 
-	class OGLU_API Shader
+	class OGLU_API AbstractShader
 	{
 	public:
-		Shader(const char* vertexShaderFile, const char* fragmentShaderFile);
-		~Shader();
+		friend std::shared_ptr<AbstractShader> OGLU_API MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile);
+		AbstractShader(const AbstractShader& other);
+		~AbstractShader();
 
 		void Use();
 
@@ -123,11 +125,15 @@ namespace oglu
 #pragma endregion Uniforms
 
 	private:
+		AbstractShader(const char* vertexShaderFile, const char* fragmentShaderFile);
+
 		void LoadShaderSource(const char* filename, char** buffer);
 
 	private:
-		GLuint vertexShader, fragmentShader, program;
+		GLuint program;
 	};
+
+	typedef std::shared_ptr<AbstractShader> Shader;
 }
 
 #endif

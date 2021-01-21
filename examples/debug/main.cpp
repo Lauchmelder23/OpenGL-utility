@@ -55,10 +55,10 @@ int main(int argc, char** argv)
 		{ 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)) }
 	};
 	
-	oglu::Shader* shader;
+	oglu::Shader shader;
 	try 
 	{
-		shader = new oglu::Shader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
+		shader = oglu::MakeShader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
 	}
 	catch (const std::exception& e)
 	{
