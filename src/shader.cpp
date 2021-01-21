@@ -15,10 +15,10 @@ namespace oglu
 
 	}
 
-	std::shared_ptr<AbstractShader> MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile)
+	Shader MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile)
 	{
 		AbstractShader* tmp = new AbstractShader(vertexShaderFile, fragmentShaderFile);
-		return std::shared_ptr<AbstractShader>(tmp);
+		return Shader(tmp);
 	}
 
 	AbstractShader::AbstractShader(const char* vertexShaderFile, const char* fragmentShaderFile) :

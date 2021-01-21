@@ -2,15 +2,22 @@
 
 namespace oglu
 {
-	Object::Object() :
-		VAO(0)
+	AbstractObject::AbstractObject(const AbstractObject& other) :
+		VAO(other.VAO), count(other.count)
 	{
+
 	}
 
-	Object::Object(const GLfloat* vertices, size_t verticesSize, 
+	Object MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
+	{
+		AbstractObject* obj = new AbstractObject(vertices, verticesSize, indices, indicesSize, topology, topologySize);
+		return Object(obj);
+	}
+
+	AbstractObject::AbstractObject(const GLfloat* vertices, size_t verticesSize, 
 					const GLuint* indices, size_t indicesSize, 
 					const VertexAttribute* topology, size_t topologySize) :
-		VAO(0)
+		VAO(0), count(0)
 	{
 		topologySize /= sizeof(VertexAttribute);
 
@@ -39,29 +46,29 @@ namespace oglu
 		count = indicesSize / sizeof(GLuint);
 	}
 
-	void Object::Bind()
+	void AbstractObject::Bind()
 	{
 		glBindVertexArray(VAO);
 	}
 
-	void Object::Unbind()
+	void AbstractObject::Unbind()
 	{
 		
 	}
 
-	void Object::Draw()
+	void AbstractObject::Draw()
 	{
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (GLvoid*)0);
 	}
 
-	void Object::BindAndDraw()
+	void AbstractObject::BindAndDraw()
 	{
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (GLvoid*)0);
 		glBindVertexArray(0);
 	}
 
-	void Object::RegisterVertexAttribPointer(GLuint index, const VertexAttribute& topology)
+	void AbstractObject::RegisterVertexAttribPointer(GLuint index, const VertexAttribute& topology)
 	{
 		glVertexAttribPointer(topology.index, topology.size, topology.type, topology.normalized, topology.stride, topology.pointer);
 		glEnableVertexAttribArray(index);

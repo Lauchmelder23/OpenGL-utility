@@ -1,7 +1,6 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
-#include <memory>
 #include <core.hpp>
 #include <glad/glad.h>
 

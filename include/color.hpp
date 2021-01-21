@@ -1,7 +1,7 @@
 #ifndef COLOR_HPP
 #define COLOR_HPP
 
-#include "core.hpp"
+#include <core.hpp>
 #include <glad/glad.h>
 
 namespace oglu

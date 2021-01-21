@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	oglu::Object square(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
+	oglu::Object square = oglu::MakeObject(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -76,7 +76,7 @@ int main(int argc, char** argv)
 
 		shader->SetUniform("ourColor", &oglu::Color::Transparent);
 		shader->Use();
-		square.BindAndDraw();
+		square->BindAndDraw();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

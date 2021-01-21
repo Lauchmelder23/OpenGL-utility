@@ -1,6 +1,8 @@
 #ifndef CORE_HPP
 #define CORE_HPP
 
+#include <memory>
+
 #ifdef OGLU_WIN32
 	#ifdef OGLU_BUILD_DLL
 		#define OGLU_API __declspec(dllexport)
