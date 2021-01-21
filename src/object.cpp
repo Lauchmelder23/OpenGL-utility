@@ -8,6 +8,11 @@ namespace oglu
 
 	}
 
+	AbstractObject::~AbstractObject()
+	{
+		glDeleteVertexArrays(1, &VAO);
+	}
+
 	Object MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize)
 	{
 		AbstractObject* obj = new AbstractObject(vertices, verticesSize, indices, indicesSize, topology, topologySize);
@@ -53,7 +58,7 @@ namespace oglu
 
 	void AbstractObject::Unbind()
 	{
-		
+		glBindVertexArray(0);
 	}
 
 	void AbstractObject::Draw()

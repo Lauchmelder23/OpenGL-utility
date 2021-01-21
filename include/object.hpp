@@ -19,6 +19,7 @@ namespace oglu
 	{
 	public:
 		AbstractObject(const AbstractObject& other);
+		~AbstractObject();
 
 		friend std::shared_ptr<AbstractObject> OGLU_API MakeObject(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
 
