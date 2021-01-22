@@ -239,23 +239,23 @@ namespace oglu
 		 * 
 		 * @returns A pointer to an array of floats
 		 */
-		const float* GetPosition();
+		const float* GetPosition() const;
 
 		/**
 		 * @brief Get rotation as a matrix.
 		 *
 		 * @returns A pointer to a 4x4 matrix
 		 */
-		const float* GetRotation();
+		const float* GetRotation() const;
 
 		/**
 		 * @brief Get scaling as a 3D vector.
 		 *
 		 * @returns A pointer to an array of floats
 		 */
-		const float* GetScaling();
+		const float* GetScaling() const;
 
-	private:
+	protected:
 		// TODO: Separate translation, rotation and scaling matrices.
 		// Combine them only when the user wants the transformation matrix
 		float* position;	///< Position vector

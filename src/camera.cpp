@@ -4,6 +4,8 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace oglu
@@ -51,14 +53,42 @@ namespace oglu
 
 	void Camera::LookAt(GLfloat x, GLfloat y, GLfloat z)
 	{
+		glm::mat4 newTransform = glm::lookAt(glm::make_vec3(position), glm::vec3(x, y, z), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::vec3 scale;
+		glm::vec3 pos;
+		glm::quat rot;
+		glm::vec3 skew;
+		glm::vec4 pers;
+		glm::decompose(newTransform, scale, rot, pos, skew, pers);
+
+		memcpy(
+			position,
+			glm::value_ptr(pos),
+			3 * sizeof(float)
+		);
+
+		memcpy(
+			rotation,
+			glm::value_ptr(glm::toMat4(rot)),
+			16 * sizeof(float)
+		);
+
+		memcpy(
+			scaling,
+			glm::value_ptr(scale),
+			3 * sizeof(float)
+		);
+		calculateMatrix = true;
 	}
 
 	void Camera::LookAt(const GLfloat* target)
 	{
+		LookAt(target[0], target[1], target[2]);
 	}
 
-	void Camera::LookAt(const Object& target)
+	void Camera::LookAt(const Transformable& target)
 	{
+		LookAt(target.GetPosition());
 	}
 
 	const float* Camera::GetProjectionMatrix()

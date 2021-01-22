@@ -13,8 +13,6 @@
 
 namespace oglu
 {
-	class Object;
-
 	/**
 	 * @brief A camera object in 3D space.
 	 * 
@@ -88,7 +86,7 @@ namespace oglu
 		 *
 		 * @param[in] target An object to target
 		 */
-		void LookAt(const Object& target);
+		void LookAt(const Transformable& target);
 
 		/**
 		 * @brief Gets the projection matrix of the camera.

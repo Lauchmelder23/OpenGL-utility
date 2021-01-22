@@ -250,17 +250,17 @@ namespace oglu
 		return transformation;
 	}
 
-	const float* Transformable::GetPosition()
+	const float* Transformable::GetPosition() const
 	{
 		return position;
 	}
 
-	const float* Transformable::GetRotation()
+	const float* Transformable::GetRotation() const
 	{
 		return rotation;
 	}
 
-	const float* Transformable::GetScaling()
+	const float* Transformable::GetScaling() const
 	{
 		return scaling;
 	}
