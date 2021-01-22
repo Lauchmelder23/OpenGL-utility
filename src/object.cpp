@@ -7,6 +7,11 @@ namespace oglu
 	{
 	}
 
+	Object::Object(const VertexArray& vao) :
+		VAO(vao)
+	{
+	}
+
 	Object::Object(const Object& other) :
 		VAO(other.VAO)
 	{
