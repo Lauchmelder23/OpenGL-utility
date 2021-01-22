@@ -69,28 +69,26 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, -2.0f, -10.0f));
+	oglu::Enable(GL_DEPTH_TEST);
 
-	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(45.f), 1.0f, 0.1f, 100.0f);
+	oglu::Camera camera(60.0f, 0.0f, 0.1f, 100.0f);
+	camera.Move(0.0f, -4.0f, -10.0f);
+	//camera.LookAt(utah);
+	//camera.GetMatrix();
 
 	// Window loop
-	oglu::Enable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		// view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
 		utah.Rotate(0.0f, 1.0f, 0.0f);
 
 		shader->Use();
 		shader->SetUniform("model", utah);
-		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, camera.GetMatrix());
+		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, camera.GetProjectionMatrix());
 
 		oglu::PolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		utah.Render();

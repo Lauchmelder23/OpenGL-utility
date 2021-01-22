@@ -9,7 +9,7 @@
 namespace oglu
 {
 	oglu::Transformable::Transformable() :
-		position(new float[3]{ 0.f }), rotation(new float[16]), scaling(new float[3]{ 1.f, 1.f, 1.f }), calculateMatrix(false)
+		position(new float[3]{ 0.f }), rotation(new float[16]), scaling(new float[3]{ 1.f, 1.f, 1.f }), transformation(new float[16]), calculateMatrix(false)
 	{
 		glm::mat4 identity(1.0f);
 		memcpy(
@@ -17,10 +17,15 @@ namespace oglu
 			glm::value_ptr(identity),
 			16 * sizeof(float)
 		);
+		memcpy(
+			transformation,
+			glm::value_ptr(identity),
+			16 * sizeof(float)
+		);
 	}
 
 	Transformable::Transformable(const Transformable& other) :
-		position(new float[3]), rotation(new float[16]), scaling(new float[3]), calculateMatrix(true)
+		position(new float[3]), rotation(new float[16]), scaling(new float[3]), transformation(new float[16]), calculateMatrix(true)
 	{
 		memcpy(
 			this->position,
@@ -232,15 +237,17 @@ namespace oglu
 
 	const float* Transformable::GetMatrix()
 	{
-		static glm::mat4 transformation(1.0f);
-
 		if (calculateMatrix)
 		{
-			transformation = glm::translate(glm::mat4(1.0f), glm::make_vec3(position)) * glm::make_mat4(rotation) * glm::scale(glm::mat4(1.0f), glm::make_vec3(scaling));
+			memcpy(
+				transformation,
+				glm::value_ptr(glm::translate(glm::mat4(1.0f), glm::make_vec3(position)) * glm::make_mat4(rotation) * glm::scale(glm::mat4(1.0f), glm::make_vec3(scaling))),
+				16 * sizeof(float)
+			);
 			calculateMatrix = false;
 		}
 
-		return glm::value_ptr(transformation);
+		return transformation;
 	}
 
 	const float* Transformable::GetPosition()

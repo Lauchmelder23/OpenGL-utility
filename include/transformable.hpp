@@ -262,6 +262,7 @@ namespace oglu
 		float* rotation;	///< Rotation matrix
 		float* scaling;		///< Scaling vector
 
+		float* transformation;
 		bool calculateMatrix;	///< Wether GetMatrix() needs to re-calculate the transformation matrix
 	};
 }

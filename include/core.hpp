@@ -13,9 +13,7 @@
 #include <stdexcept>
 #include <string>
 
-#ifdef OGLU_BUILD_DLL
 #include <glad/glad.h>
-#endif
 
 #ifdef OGLU_WIN32
 	#ifdef OGLU_BUILD_DLL
