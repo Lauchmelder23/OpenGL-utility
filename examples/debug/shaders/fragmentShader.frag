@@ -1,5 +1,4 @@
 #version 330 core
-in vec3 oCol;
 in vec2 oUV;
 
 out vec4 FragColor;

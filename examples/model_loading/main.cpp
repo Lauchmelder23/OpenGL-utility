@@ -31,7 +31,7 @@ int main(int argc, char** argv)
 	int windowSize = screen->height / 4 * 3;
 
 	// Create Window
-	GLFWwindow* window = glfwCreateWindow(windowSize, windowSize, "Debug", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(windowSize, windowSize, "Utah teapot", NULL, NULL);
 	if (window == nullptr)
 	{
 		std::cerr << "Failed to create GLFW window" << std::endl;
@@ -45,30 +45,17 @@ int main(int argc, char** argv)
 	oglu::LoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	oglu::SetViewport(0, 0, windowSize, windowSize);
 
-	// Create vertices for square
-	float vertices[] = {
-		 0.5f,  0.5f, 0.0f,		1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f,		1.0f, 0.0f,	// bottom right
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f  // top left 
-	};
+	oglu::VertexArray utah_model;
+	try {
+		utah_model = oglu::MakeVertexArray("assets/utah.obj");
+	}
+	catch (const std::runtime_error& e)
+	{
+		std::cerr << e.what() << std::endl;
+		return -1;
+	}
 
-	unsigned int indices[] = { 
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
-	};
-
-	oglu::VertexAttribute topology[] = {
-		{ 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0 },
-		{ 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)) }
-	};
-
-	// Make a square
-	oglu::Object square(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
-	oglu::Object square2(square);
-
-	square.Move(-0.6f, 0.0f, 0.0f);
-	square2.Move(0.6f, 0.0f, 0.0f);
+	oglu::Object utah(utah_model);
 
 	// Create a shader
 	oglu::Shader shader;
@@ -82,39 +69,31 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	// Create a texture
-	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
-	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
-
 	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+	view = glm::translate(view, glm::vec3(0.0f, -2.0f, -10.0f));
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.f), 1.0f, 0.1f, 100.0f);
 
 	// Window loop
+	oglu::Enable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		square.Rotate(6.0f, 0.0f, 0.0f);
-		square2.Rotate(-6.0f, 0.0f, 0.0f);
+		// view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		utah.Rotate(0.0f, 1.0f, 0.0f);
 
 		shader->Use();
-		shader->SetUniform("texture1", crate, 0);
-		shader->SetUniform("texture2", opengl, 1);
-		shader->SetUniform("model", square);
+		shader->SetUniform("model", utah);
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
-		square.Render();
-
-		shader->SetUniform("model", square2);
-		square2.Render();
+		oglu::PolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		utah.Render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

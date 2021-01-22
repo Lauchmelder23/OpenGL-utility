@@ -55,6 +55,15 @@ namespace oglu
 		friend std::shared_ptr<AbstractVertexArray> OGLU_API MakeVertexArray(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
 
 		/**
+		 * @brief Constructs a new VAO.
+		 * 
+		 * Reads an .obj file and converts it into a VAO
+		 * 
+		 * @param[in] filepath Path to the .obj file
+		 */
+		friend std::shared_ptr<AbstractVertexArray> OGLU_API MakeVertexArray(const char* filepath);
+
+		/**
 		 * @brief Copy constructor.
 		 *
 		 * Copying a VAO is generally possible. Since the user is given a shared pointer the

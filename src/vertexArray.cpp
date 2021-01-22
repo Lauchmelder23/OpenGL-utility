@@ -1,5 +1,10 @@
 #include "vertexArray.hpp"
 
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
+
 namespace oglu
 {
 	AbstractVertexArray::AbstractVertexArray(const AbstractVertexArray& other) :
@@ -20,6 +25,56 @@ namespace oglu
 	{
 		AbstractVertexArray* obj = new AbstractVertexArray(vertices, verticesSize, indices, indicesSize, topology, topologySize);
 		return VertexArray(obj);
+	}
+
+	std::shared_ptr<AbstractVertexArray> MakeVertexArray(const char* filepath)
+	{
+		std::ifstream file(filepath);
+		if (!file.good())
+		{
+			file.close();
+			throw std::runtime_error("Missing file: " + std::string(filepath));
+		}
+
+		std::vector<GLfloat> vertices;
+		std::vector<GLuint> indices;
+		
+		std::string line;
+		while(!file.eof())
+		{
+			std::getline(file, line);
+			switch (line[0])
+			{
+			case 'v':
+			{
+				GLfloat x, y, z;
+				int shut_up_vs = sscanf(line.c_str(), "v %f %f %f", &x, &y, &z);
+				vertices.push_back(x);
+				vertices.push_back(y);
+				vertices.push_back(z);
+			} break;
+
+			case 'f':
+			{
+				GLuint a, b, c;
+				int shut_up_vs = sscanf(line.c_str(), "f %u %u %u", &a, &b, &c);
+				indices.push_back(a - 1);
+				indices.push_back(b - 1);
+				indices.push_back(c - 1);
+			} break;
+
+			default: break;
+			}
+		}
+
+		VertexAttribute topology[] = {
+			{0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0 },
+		};
+
+		return MakeVertexArray(vertices.data(), sizeof(GLfloat) * vertices.size(),
+			indices.data(), sizeof(GLuint) * indices.size(),
+			topology, sizeof(topology)
+		);
 	}
 
 	AbstractVertexArray::AbstractVertexArray(const GLfloat* vertices, size_t verticesSize, 

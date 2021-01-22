@@ -45,6 +45,44 @@ namespace oglu
 	 * @param[in] clearColor Color to clear the screen with
 	 */
 	OGLU_API void ClearScreen(GLbitfield mask, Color clearColor);
+
+	/**
+	 * @brief Wrapper for glEnable.
+	 * 
+	 * @param[in] cap A GL capability
+	 */
+	OGLU_API void Enable(GLenum cap);
+
+	/**
+	 * @brief Wrapper for glDisable.
+	 *
+	 * @param[in] cap A GL capability
+	 */
+	OGLU_API void Disable(GLenum cap);
+
+	/**
+	 * @brief Wrapper for glEnablei.
+	 *
+	 * @param[in] cap A GL capability
+	 * @param[in] index Index of the switch
+	 */
+	OGLU_API void Enable(GLenum cap, GLuint index);
+
+	/**
+	 * @brief Wrapper for glDisablei.
+	 *
+	 * @param[in] cap A GL capability
+	 * @param[in] index Index of the switch
+	 */
+	OGLU_API void Disable(GLenum cap, GLuint index);
+
+	/**
+	 * @brief Wrapper for glPolygonMode.
+	 * 
+	 * @param[in] face Type of polygon to apply @p mode to
+	 * @param[in] mode Type of rasterization for polygons
+	 */
+	OGLU_API void PolygonMode(GLenum face, GLenum mode);
 }
 
 #endif //OPENGLU_HPP
