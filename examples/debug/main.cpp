@@ -66,6 +66,10 @@ int main(int argc, char** argv)
 
 	// Make a square
 	oglu::Object square(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
+	oglu::Object square2(square);
+
+	square.Move(-0.6f, 0.0f, 0.0f);
+	square2.Move(0.6f, 0.0f, 0.0f);
 
 	// Create a shader
 	oglu::Shader shader;
@@ -97,15 +101,19 @@ int main(int argc, char** argv)
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
 		square.Rotate(6.0f, 0.0f, 0.0f);
+		square2.Rotate(-6.0f, 0.0f, 0.0f);
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);
 		shader->SetUniform("texture2", opengl, 1);
-		shader->SetUniformMatrix4fv("model", 1, GL_FALSE, square.GetMatrix());
+		shader->SetUniform("model", square);
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
 		square.Render();
+
+		shader->SetUniform("model", square2);
+		square2.Render();
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

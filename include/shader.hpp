@@ -15,6 +15,7 @@ namespace oglu
 {
 	class Color;
 	class AbstractTexture;
+	class Transformable;
 
 	typedef std::shared_ptr<AbstractTexture> Texture;
 
@@ -305,9 +306,31 @@ namespace oglu
 		 *
 		 * @param[in] location Location of the uniform
 		 * @param[in] v0 Value to set the uniform to
-		 * @param[in] ignoreAlpha Index of the texture unit
+		 * @param[in] index Index of the texture unit
 		 */
 		void SetUniform(GLint location, const Texture& v0, GLbyte index = 0);
+
+		/**
+		 * @brief Set uniform mat4.
+		 *
+		 * Sets the specified uniform to the transformation matrix of a
+		 * Transformable object
+		 *
+		 * @param[in] name Name of the uniform
+		 * @param[in] v0 Value to set the uniform to
+		 */
+		void SetUniform(const GLchar* name, Transformable& v0, GLboolean transpose = GL_FALSE);
+
+		/**
+		 * @brief Set uniform mat4.
+		 *
+		 * Sets the specified uniform to the transformation matrix of a
+		 * Transformable object
+		 *
+		 * @param[in] location Location of the uniform
+		 * @param[in] v0 Value to set the uniform to
+		 */
+		void SetUniform(GLint location, Transformable& v0, GLboolean transpose = GL_FALSE);
 
 		/**
 		 * @brief Set array of uniform float.

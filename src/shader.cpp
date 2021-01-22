@@ -7,6 +7,7 @@
 
 #include <color.hpp>
 #include <texture.hpp>
+#include <transformable.hpp>
 
 namespace oglu
 {
@@ -245,6 +246,16 @@ namespace oglu
 	{
 		v0->BindAs(index);
 		glUniform1i(location, index);
+	}
+
+	void AbstractShader::SetUniform(const GLchar* name, Transformable& v0, GLboolean transpose)
+	{
+		SetUniform(glGetUniformLocation(program, name), v0);
+	}
+
+	void AbstractShader::SetUniform(GLint location, Transformable& v0, GLboolean transpose)
+	{
+		glUniformMatrix4fv(location, 1, transpose, v0.GetMatrix());
 	}
 
 	void AbstractShader::SetUniform1fv(const GLchar* name, GLsizei count, const GLfloat* value)
