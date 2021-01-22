@@ -58,7 +58,7 @@ namespace oglu
 		 *
 		 * @param[in] position An array of floats containing three scalars
 		 */
-		void SetPosition(const float* translation);
+		void SetPosition(const float* position);
 
 		/**
 		 * @brief Sets the rotation.
@@ -234,12 +234,33 @@ namespace oglu
 		 */
 		const float* GetMatrix();
 
+		/**
+		 * @brief Get position as a 3D vector.
+		 * 
+		 * @returns A pointer to an array of floats
+		 */
+		const float* GetPosition();
+
+		/**
+		 * @brief Get rotation as a matrix.
+		 *
+		 * @returns A pointer to a 4x4 matrix
+		 */
+		const float* GetRotation();
+
+		/**
+		 * @brief Get scaling as a 3D vector.
+		 *
+		 * @returns A pointer to an array of floats
+		 */
+		const float* GetScaling();
+
 	private:
 		// TODO: Separate translation, rotation and scaling matrices.
 		// Combine them only when the user wants the transformation matrix
-		float* translation;	///< Translation matrix
+		float* position;	///< Position vector
 		float* rotation;	///< Rotation matrix
-		float* scaling;		///< Scaling matrix
+		float* scaling;		///< Scaling vector
 
 		bool calculateMatrix;	///< Wether GetMatrix() needs to re-calculate the transformation matrix
 	};
