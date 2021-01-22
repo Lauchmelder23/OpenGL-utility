@@ -1,8 +1,12 @@
 #include <iostream>
 
 #include "openglu.hpp"
+#include "transformable.hpp"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -79,16 +83,32 @@ int main(int argc, char** argv)
 	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
 	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
 
+	oglu::Transformable model;
+	//model.SetRotation(-55.0f, 0.0f, 0.0f);
+
+	glm::mat4 view = glm::mat4(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	glm::mat4 projection;
+	projection = glm::perspective(glm::radians(45.f), 1.0f, 0.1f, 100.0f);
+
+	glm::mat4 test = glm::make_mat4(model.GetMatrix());
+
 	// Window loop
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
-		oglu::ClearScreen(GL_COLOR_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
+		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
+
+		model.Rotate(6.0f, 0.0f, 0.0f);
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);
 		shader->SetUniform("texture2", opengl, 1);
+		shader->SetUniformMatrix4fv("model", 1, GL_FALSE, model.GetMatrix());
+		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
+		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
 
 		square->BindAndDraw();
 

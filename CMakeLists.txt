@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(OpenGLUtility)
 
+# set(CMAKE_CXX_STANDARD 17)
+
 set(build_examples ON CACHE BOOL "Build examples")
 set(build_documentation ON CACHE BOOL "Generate documentation")
 
@@ -26,7 +28,7 @@ add_library(openglu SHARED
 	${include_files}
 	${source_files}
 	"cpp.hint"
-)
+ "src/transformable.cpp")
 
 target_compile_definitions(openglu PRIVATE OGLU_BUILD_DLL)
 
