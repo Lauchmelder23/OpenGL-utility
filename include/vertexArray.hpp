@@ -16,7 +16,7 @@ namespace oglu
 	/**
 	 * @brief Structure to store topology data.
 	 */
-	OGLU_API struct VertexAttribute {
+	struct OGLU_API VertexAttribute {
 		/*@{*/
 		GLuint index;			///< Index of the vertex attribute
 		GLint size;				///< Number of elements in this attribute

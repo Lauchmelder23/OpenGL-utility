@@ -12,6 +12,7 @@
 #include <vertexArray.hpp>
 #include <shader.hpp>
 #include <texture.hpp>
+#include <object.hpp>
 
 namespace oglu
 {
