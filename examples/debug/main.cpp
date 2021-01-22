@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
 
 	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.f), 1.0f, 0.1f, 100.0f);
@@ -102,6 +102,8 @@ int main(int argc, char** argv)
 
 		square.Rotate(6.0f, 0.0f, 0.0f);
 		square2.Rotate(-6.0f, 0.0f, 0.0f);
+
+		view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);
