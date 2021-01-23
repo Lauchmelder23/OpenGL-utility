@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 
 		shader->Use();
 		shader->SetUniform("model", utah);
-		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, camera.GetMatrix());
+		shader->SetUniform("view", camera);
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, camera.GetProjectionMatrix());
 
 		oglu::PolygonMode(GL_FRONT_AND_BACK, GL_LINE);

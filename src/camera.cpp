@@ -57,13 +57,18 @@ namespace oglu
 
 	void Camera::LookAt(GLfloat x, GLfloat y, GLfloat z)
 	{
-		transformation = glm::lookAt(translation, glm::vec3(x, y, z), glm::vec3(0.0f, 1.0f, 0.0f));
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		LookAt(glm::vec3(x, y, z));
 	}
 
 	void Camera::LookAt(const GLfloat* target)
 	{
-		LookAt(target[0], target[1], target[2]);
+		LookAt(glm::make_vec3(target));
+	}
+
+	void Camera::LookAt(const glm::vec3& target)
+	{
+		transformation = glm::lookAt(translation, target, glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	void Camera::LookAt(const Transformable& target)

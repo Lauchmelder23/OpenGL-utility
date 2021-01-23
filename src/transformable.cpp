@@ -161,23 +161,23 @@ namespace oglu
 		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
 	}
 
-	const float* Transformable::GetMatrix()
+	const glm::mat4& Transformable::GetMatrix()
 	{
-		return glm::value_ptr(transformation);
+		return transformation;
 	}
 
-	const float* Transformable::GetPosition() const
+	const glm::vec3& Transformable::GetPosition() const
 	{
-		return glm::value_ptr(translation);
+		return translation;
 	}
 
-	const float* Transformable::GetRotation() const
+	const glm::quat& Transformable::GetRotation() const
 	{
-		return glm::value_ptr(orientation);
+		return orientation;
 	}
 
-	const float* Transformable::GetScaling() const
+	const glm::vec3& Transformable::GetScaling() const
 	{
-		return glm::value_ptr(scale);
+		return scale;
 	}
 }

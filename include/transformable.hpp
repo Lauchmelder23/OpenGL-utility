@@ -307,28 +307,28 @@ namespace oglu
 		 *
 		 * @return An array of 16 floats representing the transformation matrix
 		 */
-		const float* GetMatrix();
+		virtual const glm::mat4& GetMatrix();
 
 		/**
 		 * @brief Get position as a 3D vector.
 		 * 
 		 * @returns A pointer to an array of floats
 		 */
-		const float* GetPosition() const;
+		virtual const glm::vec3& GetPosition() const;
 
 		/**
 		 * @brief Get rotation as a matrix.
 		 *
 		 * @returns A pointer to a 4x4 matrix
 		 */
-		const float* GetRotation() const;
+		virtual const glm::quat& GetRotation() const;
 
 		/**
 		 * @brief Get scaling as a 3D vector.
 		 *
 		 * @returns A pointer to an array of floats
 		 */
-		const float* GetScaling() const;
+		virtual const glm::vec3& GetScaling() const;
 
 	protected:
 		// TODO: Separate translation, rotation and scaling matrices.

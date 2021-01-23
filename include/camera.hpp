@@ -84,11 +84,19 @@ namespace oglu
 		 * This will adjust the camera's rotation in order to put the
 		 * specified coordinate at the center of the screen.
 		 *
+		 * @param[in] target 3D vector with the target position
+		 */
+		void LookAt(const glm::vec3& target);
+
+		/**
+		 * @brief Have camera face at a certain position.
+		 *
+		 * This will adjust the camera's rotation in order to put the
+		 * specified coordinate at the center of the screen.
+		 *
 		 * @param[in] target An object to target
 		 */
 		void LookAt(const Transformable& target);
-
-		// void Move(float x, float y, float z) override;
 
 		/**
 		 * @brief Gets the projection matrix of the camera.
