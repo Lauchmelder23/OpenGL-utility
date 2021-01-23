@@ -14,7 +14,6 @@ namespace oglu
 	AbstractShader::AbstractShader(const AbstractShader& other) :
 		program(other.program)
 	{
-
 	}
 
 	Shader MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile)

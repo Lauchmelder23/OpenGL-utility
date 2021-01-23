@@ -3,14 +3,6 @@
 /* Dark background: #d f e 5 f 2; */
 
 /* TOP MENU */
-.sm-dox {
-	background: #dfe5f2 !important;
-}
-
-.sm-dox a {
-	background: none;
-}
-
 body {
 	background: #282923;
 	background-image: none;
@@ -89,7 +81,7 @@ a.SelectItem:hover {
 #MSearchResultsWindow {
 	border: 1px solid #000000;
 	background: #32363d;
-	color: #67d8ef !important;;
+	color: #67d8ef !important;
 }
 
 /*********************************************/
@@ -100,7 +92,6 @@ a.SelectItem:hover {
 }
 
 #nav-tree .selected {
-	background-image: none;
 	background: #32363d;
 }
 
@@ -155,13 +146,6 @@ div.header {
 }
 
 /*********************************************/
-/**           Memitem and memtitle          **/
-/*********************************************/
-.memdoc {
-	border: 1px solid #A8B8D9;
-}
-
-/*********************************************/
 /**             TOP navigation              **/
 /*********************************************/
 .tabs, .tabs2, .tabs3 {
@@ -199,10 +183,6 @@ div.header {
 /**               Reference list            **/
 /**Similar to warning/note/todo/... messages**/
 /*********************************************/
-dl.reflist {
-
-}
-
 
 /*********************************************/
 /**               Note, warning             **/
@@ -278,19 +258,19 @@ span.charliteral {
 	color: #e7db74;
 }
 
-span.vhdldigit { 
+span.vhdldigit {
 	color: #ff00ff;
 }
 
-span.vhdlchar { 
+span.vhdlchar {
 	color: #000000;
 }
 
-span.vhdlkeyword { 
+span.vhdlkeyword {
 	color: #700070;
 }
 
-span.vhdllogic { 
+span.vhdllogic {
 	color: #ff0000;
 }
 
@@ -412,7 +392,7 @@ td.memItemLeft, td.memItemRight {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #32363d; 
+	background: #32363d;
 }
 
 /*********************************************/
