@@ -20,7 +20,7 @@ li code,
 td code,
 dd code {
 	display: inline;
-	padding: 0px 6px;
+	padding: 0 6px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -88,7 +88,7 @@ div.toc h3 {
 .textblock h1 {
     border-bottom: 1px solid #32363d;
     border-left: 3px solid #32363d;
-    margin: 40px 0px 10px 0px;
+    margin: 40px 0 10px;
     padding-bottom: 10px;
     padding-top: 10px;
     padding-left: 5px;
@@ -107,8 +107,8 @@ dl.todo,
 dl.deprecated,
 dl.reflist {
 	border: 0;
-	padding: 0px;
-	margin: 4px 0px 4px 0px;
+	padding: 0;
+	margin: 4px 0;
 	border-radius: 4px;
 }
 
@@ -122,8 +122,8 @@ dl.reflist dt {
 	padding: 2px 4px;
 
 	border: none;
-	border-top-left-radius: 0px;
-	border-top-right-radius:0px;
+	border-top-left-radius: 0;
+	border-top-right-radius:0;
 
 	font-weight: bold;
 	text-transform: uppercase;
@@ -147,8 +147,8 @@ dl.reflist dd {
 	color: #222222;
 
 	border: 1px solid;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 	border-top: none;
 
 	box-shadow: none;
