@@ -78,11 +78,11 @@ namespace oglu
 		 * This sets an absolute rotation, means that it resets any previous
 		 * rotations.
 		 *
-		 * @param[in] rotX New rotation around x axis
-		 * @param[in] rotY New rotation around y axis
-		 * @param[in] rotZ New rotation around z axis
+		 * @param[in] pitch New pitch
+		 * @param[in] yaw New yaw
+		 * @param[in] roll New roll
 		 */
-		virtual void SetRotation(float rotX, float rotY, float rotZ);
+		virtual void SetRotation(float pitch, float yaw, float roll);
 
 		/**
 		 * @brief Sets the rotation.
@@ -92,7 +92,7 @@ namespace oglu
 		 *
 		 * @param[in] rotation An array of floats containing three scalars
 		 */
-		virtual void SetRotation(const float* rotation);
+		virtual void SetRotation(const float* pitchYawRoll);
 
 		/**
 		 * @brief Sets the rotation.
@@ -102,7 +102,28 @@ namespace oglu
 		 *
 		 * @param[in] rotation A glm::vec3 containing Euler angles
 		 */
-		virtual void SetRotation(const glm::vec3& rotation);
+		virtual void SetRotation(const glm::vec3 & pitchYawRoll);
+
+		/**
+		 * @brief Set pitch.
+		 *
+		 * @param[in] angle Angle to set pitch to
+		 */
+		virtual void SetPitch(float angle);
+
+		/**
+		 * @brief Set yaw.
+		 *
+		 * @param[in] angle Angle to set yaw to
+		 */
+		virtual void SetYaw(float angle);
+
+		/**
+		 * @brief Set roll.
+		 *
+		 * @param[in] angle Angle to set roll to
+		 */
+		virtual void SetRoll(float angle);
 
 		/**
 		 * @brief Sets the rotation.
@@ -209,11 +230,11 @@ namespace oglu
 		 * This function applies a rotation to the object, it operates
 		 * operates on the current rotation.
 		 *
-		 * @param[in] rotX Rotation around the x axis
-		 * @param[in] rotY Rotation around the y axis
-		 * @param[in] rotZ Rotation around the z axis
+		 * @param[in] pitch Pitching
+		 * @param[in] yaw Yawing
+		 * @param[in] roll Rolling
 		 */
-		virtual void Rotate(float rotX, float rotY, float rotZ);
+		virtual void Rotate(float pitch, float yaw, float roll);
 
 		/**
 		 * @brief Performs a rotation.
@@ -223,7 +244,7 @@ namespace oglu
 		 *
 		 * @param[in] rotation An array of floats containing the rotation values
 		 */
-		virtual void Rotate(const float* rotation);
+		virtual void Rotate(const float* pitchYawRoll);
 
 		/**
 		 * @brief Performs a rotation.
@@ -233,7 +254,28 @@ namespace oglu
 		 *
 		 * @param[in] rotation An 3D vector containing Euler angles
 		 */
-		virtual void Rotate(const glm::vec3& rotation);
+		virtual void Rotate(const glm::vec3& pitchYawRoll);
+
+		/**
+		 * @brief Pitch the object.
+		 * 
+		 * @param[in] angle Angle to pitch by
+		 */
+		virtual void Pitch(float angle);
+
+		/**
+		 * @brief Yaw the object.
+		 *
+		 * @param[in] angle Angle to yaw by
+		 */
+		virtual void Yaw(float angle);
+
+		/**
+		 * @brief Roll the object.
+		 *
+		 * @param[in] angle Angle to roll by
+		 */
+		virtual void Roll(float angle);
 
 		/**
 		 * @brief Performs a rotation.

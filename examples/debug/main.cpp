@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -70,7 +71,10 @@ int main(int argc, char** argv)
 	square.Move(-0.6f, 0.0f, 0.0f);
 	square2.Move(0.6f, 0.0f, 0.0f);
 
-	square.Rotate(0.0f, 0.0f, 45.0f);
+	//square.GlobalRotate(45.0f, 0.0f, 0.0f);
+	//square.GlobalRotate(0.0f, 0.0f, 45.0f);
+
+	//square.SetGlobalRotation(45.0f, 0.0f, 45.0f);
 
 	// Create a shader
 	oglu::Shader shader;
@@ -97,16 +101,17 @@ int main(int argc, char** argv)
 	// Window loop
 	oglu::Enable(GL_DEPTH_TEST);
 	float t = 0.0f;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		// view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		// camera.Rotate(0.0f, 1.0f, 0.0f);
-		// camera.Pan(1.f);
+		square.Pitch(6.0f);
+		square2.Pitch(-6.0f);
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);

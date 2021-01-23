@@ -41,20 +41,35 @@ namespace oglu
 		recalculateMatrix = true;
 	}
 
-	void Transformable::SetRotation(float rotX, float rotY, float rotZ)
+	void Transformable::SetRotation(float pitch, float yaw, float roll)
 	{
-		SetRotation(glm::vec3(rotX, rotY, rotZ));
+		SetRotation(glm::vec3(pitch, yaw, roll));
 	}
 
-	void Transformable::SetRotation(const float* rotation)
+	void Transformable::SetRotation(const float* pitchYawRoll)
 	{
-		SetRotation(glm::make_vec3(rotation));
+		SetRotation(glm::make_vec3(pitchYawRoll));
 	}
 
-	void Transformable::SetRotation(const glm::vec3& rotation)
+	void Transformable::SetRotation(const glm::vec3& pitchYawRoll)
 	{
-		orientation = glm::quat(glm::radians(rotation));
+		orientation = glm::quat(glm::radians(pitchYawRoll));
 		recalculateMatrix = true;
+	}
+
+	inline void Transformable::SetPitch(float angle)
+	{
+		SetRotation(glm::vec3(angle, 0.0f, 0.0f));
+	}
+
+	inline void Transformable::SetYaw(float angle)
+	{
+		SetRotation(glm::vec3(0.0f, angle, 0.0f));
+	}
+
+	inline void Transformable::SetRoll(float angle)
+	{
+		SetRotation(glm::vec3(0.0f, 0.0f, angle));
 	}
 
 	void Transformable::SetRotation(float angle, float xAxis, float yAxis, float zAxis)
@@ -105,20 +120,35 @@ namespace oglu
 		recalculateMatrix = true;
 	}
 
-	void Transformable::Rotate(float rotX, float rotY, float rotZ)
+	void Transformable::Rotate(float pitch, float yaw, float roll)
 	{
-		Rotate(glm::vec3(rotX, rotY, rotZ));
+		Rotate(glm::vec3(pitch, yaw, roll));
 	}
 
-	void Transformable::Rotate(const float* rotation)
+	void Transformable::Rotate(const float* pitchYawRoll)
 	{
-		Rotate(glm::make_vec3(rotation));
+		Rotate(glm::make_vec3(pitchYawRoll));
 	}
 
-	void Transformable::Rotate(const glm::vec3& rotation)
+	void Transformable::Rotate(const glm::vec3& pitchYawRoll)
 	{
-		orientation *= glm::quat(glm::radians(rotation));
+		orientation *= glm::quat(glm::radians(pitchYawRoll));
 		recalculateMatrix = true;
+	}
+
+	inline void Transformable::Pitch(float angle)
+	{
+		Rotate(glm::vec3(angle, 0.0f, 0.0f));
+	}
+
+	inline void Transformable::Yaw(float angle)
+	{
+		Rotate(glm::vec3(0.0f, angle, 0.0f));
+	}
+
+	inline void Transformable::Roll(float angle)
+	{
+		Rotate(glm::vec3(0.0f, 0.0f, angle));
 	}
 
 	void Transformable::Rotate(float angle, float xAxis, float yAxis, float zAxis)
