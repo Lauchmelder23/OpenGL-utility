@@ -10,7 +10,6 @@ namespace oglu
 	AbstractVertexArray::AbstractVertexArray(const AbstractVertexArray& other) :
 		VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), count(other.count)
 	{
-
 	}
 
 	AbstractVertexArray::~AbstractVertexArray()
