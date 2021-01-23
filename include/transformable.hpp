@@ -10,6 +10,8 @@
 #define TRANSFORMABLE_HPP
 
 #include <core.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 namespace oglu
 {
@@ -258,12 +260,13 @@ namespace oglu
 	protected:
 		// TODO: Separate translation, rotation and scaling matrices.
 		// Combine them only when the user wants the transformation matrix
-		float* position;	///< Position vector
-		float* rotation;	///< Rotation matrix
-		float* scaling;		///< Scaling vector
+		glm::mat4 transformation;
 
-		float* transformation;
-		bool calculateMatrix;	///< Wether GetMatrix() needs to re-calculate the transformation matrix
+		glm::vec3 scale;
+		glm::quat orientation;
+		glm::vec3 translation;
+		glm::vec3 skew;
+		glm::vec4 perspective;
 	};
 }
 

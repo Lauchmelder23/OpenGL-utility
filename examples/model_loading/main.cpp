@@ -72,6 +72,8 @@ int main(int argc, char** argv)
 	oglu::Enable(GL_DEPTH_TEST);
 
 	oglu::Camera camera(45.0f, 1.0f, 0.1f, 100.0f);
+	camera.Move(0.0f, -5.0f, -10.0f);
+	camera.LookAt(glm::value_ptr(glm::make_vec3(utah.GetPosition()) + glm::vec3(0.0f, 2.0f, 0.0f)));
 
 	float t = 0.0f;
 
@@ -82,8 +84,7 @@ int main(int argc, char** argv)
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		camera.SetPosition(10.0f * cosf(t), -5.0f, 10.0f * sinf(t));
-		camera.LookAt(utah);
+		utah.Rotate(0.0f, 10.0f, 0.0f);
 
 		shader->Use();
 		shader->SetUniform("model", utah);
