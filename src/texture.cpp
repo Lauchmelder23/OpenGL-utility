@@ -15,7 +15,6 @@ namespace oglu
 	AbstractTexture::AbstractTexture(const AbstractTexture& other) :
 		width(other.width), height(other.height), nrChannels(other.nrChannels), texture(other.texture)
 	{
-		
 	}
 
 	AbstractTexture::~AbstractTexture()
