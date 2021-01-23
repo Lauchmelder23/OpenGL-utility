@@ -88,6 +88,8 @@ namespace oglu
 		 */
 		void LookAt(const Transformable& target);
 
+		// void Move(float x, float y, float z) override;
+
 		/**
 		 * @brief Gets the projection matrix of the camera.
 		 * 

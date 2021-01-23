@@ -86,13 +86,11 @@ int main(int argc, char** argv)
 	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
 	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
 
-	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-
-	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(45.f), 1.0f, 0.1f, 100.0f);
+	oglu::Camera camera;
+	camera.Move(0.0f, 0.0f, -5.0f);
 
 	// Window loop
+	float t = 0.0f;
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -101,15 +99,14 @@ int main(int argc, char** argv)
 
 		square.Rotate(6.0f, 0.0f, 0.0f);
 		square2.Rotate(-6.0f, 0.0f, 0.0f);
-
-		view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		camera.Rotate(0.0f, 1.0f, 0.0f);
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);
 		shader->SetUniform("texture2", opengl, 1);
 		shader->SetUniform("model", square);
-		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+		shader->SetUniform("view", camera);
+		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, camera.GetProjectionMatrix());
 
 		square.Render();
 
@@ -118,6 +115,8 @@ int main(int argc, char** argv)
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		t += 0.1f;
 	}
 
 	glfwTerminate();

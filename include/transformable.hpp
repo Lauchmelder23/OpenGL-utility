@@ -50,7 +50,7 @@ namespace oglu
 		 * @param[in] y New y position
 		 * @param[in] z New z position
 		 */
-		void SetPosition(float x, float y, float z);
+		virtual void SetPosition(float x, float y, float z);
 
 		/**
 		 * @brief Sets the position.
@@ -60,7 +60,17 @@ namespace oglu
 		 *
 		 * @param[in] position An array of floats containing three scalars
 		 */
-		void SetPosition(const float* position);
+		virtual void SetPosition(const float* position);
+
+		/**
+		 * @brief Sets the position.
+		 *
+		 * This sets an absolute position, means that it resets any previous
+		 * translations.
+		 *
+		 * @param[in] position A 3D position vector
+		 */
+		virtual void SetPosition(const glm::vec3& position);
 
 		/**
 		 * @brief Sets the rotation.
@@ -72,7 +82,7 @@ namespace oglu
 		 * @param[in] rotY New rotation around y axis
 		 * @param[in] rotZ New rotation around z axis
 		 */
-		void SetRotation(float rotX, float rotY, float rotZ);
+		virtual void SetRotation(float rotX, float rotY, float rotZ);
 
 		/**
 		 * @brief Sets the rotation.
@@ -82,7 +92,17 @@ namespace oglu
 		 *
 		 * @param[in] rotation An array of floats containing three scalars
 		 */
-		void SetRotation(const float* rotation);
+		virtual void SetRotation(const float* rotation);
+
+		/**
+		 * @brief Sets the rotation.
+		 *
+		 * This sets an absolute rotation, means that it resets any previous
+		 * rotations.
+		 *
+		 * @param[in] rotation A glm::vec3 containing Euler angles
+		 */
+		virtual void SetRotation(const glm::vec3& rotation);
 
 		/**
 		 * @brief Sets the rotation.
@@ -95,7 +115,7 @@ namespace oglu
 		 * @param[in] yAxis The y component of the rotation axis
 		 * @param[in] zAxis The z component of the rotation axis
 		 */
-		void SetRotation(float angle, float xAxis, float yAxis, float zAxis);
+		virtual void SetRotation(float angle, float xAxis, float yAxis, float zAxis);
 
 		/**
 		 * @brief Sets the rotation.
@@ -106,7 +126,18 @@ namespace oglu
 		 * @param[in] angle The angle to rotate by
 		 * @param[in] axis An array of floats containing the three rotation axis components
 		 */
-		void SetRotation(float angle, const float* axis);
+		virtual void SetRotation(float angle, const float* axis);
+
+		/**
+		 * @brief Sets the rotation.
+		 *
+		 * This sets an absolute rotation, means that it resets any previous
+		 * rotations.
+		 *
+		 * @param[in] angle The angle to rotate by
+		 * @param[in] axis The axis to rotate around
+		 */
+		virtual void SetRotation(float angle, const glm::vec3& axis);
 
 		/**
 		 * @brief Sets the scaling.
@@ -118,7 +149,7 @@ namespace oglu
 		 * @param[in] scaleY The scaling in y direction
 		 * @param[in] scaleZ The scaling in z direction
 		 */
-		void SetScale(float scaleX, float scaleY, float scaleZ);
+		virtual void SetScale(float scaleX, float scaleY, float scaleZ);
 
 		/**
 		 * @brief Sets the scaling.
@@ -128,7 +159,17 @@ namespace oglu
 		 *
 		 * @param[in] scale An array of floats containing three scalars
 		 */
-		void SetScale(const float* scale);
+		virtual void SetScale(const float* scale);
+
+		/**
+		 * @brief Sets the scaling.
+		 *
+		 * This sets an absolute scaling, means that it resets any previous
+		 * scaling.
+		 *
+		 * @param[in] scale A 3D scaling vector
+		 */
+		virtual void SetScale(const glm::vec3& scale);
 
 		/**
 		 * @brief Performs a translation.
@@ -140,7 +181,7 @@ namespace oglu
 		 * @param[in] y Offset along the y axis
 		 * @param[in] z Offset along the z axis
 		 */
-		void Move(float x, float y, float z);
+		virtual void Move(float x, float y, float z);
 
 		/**
 		 * @brief Performs a translation.
@@ -150,7 +191,17 @@ namespace oglu
 		 *
 		 * @param[in] position An array of floats containing the offset values
 		 */
-		void Move(const float* translation);
+		virtual void Move(const float* translation);
+
+		/**
+		 * @brief Performs a translation.
+		 *
+		 * This function applies a translation to the object, it operates
+		 * operates on the current position.
+		 *
+		 * @param[in] position A 3D displacement vector
+		 */
+		virtual void Move(const glm::vec3& translation);
 
 		/**
 		 * @brief Performs a rotation.
@@ -162,7 +213,7 @@ namespace oglu
 		 * @param[in] rotY Rotation around the y axis
 		 * @param[in] rotZ Rotation around the z axis
 		 */
-		void Rotate(float rotX, float rotY, float rotZ);
+		virtual void Rotate(float rotX, float rotY, float rotZ);
 
 		/**
 		 * @brief Performs a rotation.
@@ -172,7 +223,17 @@ namespace oglu
 		 *
 		 * @param[in] rotation An array of floats containing the rotation values
 		 */
-		void Rotate(const float* rotation);
+		virtual void Rotate(const float* rotation);
+
+		/**
+		 * @brief Performs a rotation.
+		 *
+		 * This function applies a rotation to the object, it operates
+		 * operates on the current rotation.
+		 *
+		 * @param[in] rotation An 3D vector containing Euler angles
+		 */
+		virtual void Rotate(const glm::vec3& rotation);
 
 		/**
 		 * @brief Performs a rotation.
@@ -185,7 +246,7 @@ namespace oglu
 		 * @param[in] yAxis y component of the rotation axis
 		 * @param[in] zAxis z component of the rotation axis
 		 */
-		void Rotate(float angle, float xAxis, float yAxis, float zAxis);
+		virtual void Rotate(float angle, float xAxis, float yAxis, float zAxis);
 
 		/**
 		 * @brief Performs a rotation.
@@ -194,9 +255,20 @@ namespace oglu
 		 * operates on the current rotation.
 		 *
 		 * @param[in] angle The angle to rotate by
-		 * @param[in] An array of floats containing the components of the rotation axis
+		 * @param[in] axis An array of floats containing the components of the rotation axis
 		 */
-		void Rotate(float angle, const float* axis);
+		virtual void Rotate(float angle, const float* axis);
+
+		/**
+		 * @brief Performs a rotation.
+		 *
+		 * This function applies a rotation to the object, it operates
+		 * operates on the current rotation.
+		 *
+		 * @param[in] angle The angle to rotate by
+		 * @param[in] axis The axis to rotate around
+		 */
+		virtual void Rotate(float angle, const glm::vec3& axis);
 
 		/**
 		 * @brief Performs scaling.
@@ -208,7 +280,7 @@ namespace oglu
 		 * @param[in] scaleX Scaling in y direction
 		 * @param[in] scaleX Scaling in z direction
 		 */
-		void Scale(float scaleX, float scaleY, float scaleZ);
+		virtual void Scale(float scaleX, float scaleY, float scaleZ);
 
 		/**
 		 * @brief Performs scaling.
@@ -218,19 +290,20 @@ namespace oglu
 		 *
 		 * @param[in] scale An array of floats containing three scaling values
 		 */
-		void Scale(const float* scale);
+		virtual void Scale(const float* scale);
+
+		/**
+		 * @brief Performs scaling.
+		 *
+		 * This function applies scaling to the object, it operates
+		 * operates on the current scaling.
+		 *
+		 * @param[in] scale A 3D scaling vector
+		 */
+		virtual void Scale(const glm::vec3& scale);
 
 		/**
 		 * @brief Returns a transformation matrix.
-		 *
-		 * Internally, this function multiplies the translation, rotation,
-		 * and scaling matrices into one transformation matrix which is
-		 * then returned. 
-		 * 
-		 * This multiplication is only performed when a change occured to one
-		 * of those matrices (so when there was a translation, rotation or scaling).
-		 * So it is okay to call this function multiple times without huge performance
-		 * loss, as long as no transformations occur inbetween.
 		 *
 		 * @return An array of 16 floats representing the transformation matrix
 		 */

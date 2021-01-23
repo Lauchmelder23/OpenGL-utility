@@ -13,6 +13,10 @@ namespace oglu
 	Camera::Camera() :
 		fov(45.0f), aspectRatio(0.0f), zNear(0.1f), zFar(100.0f), projection(new float[16]{ 0.0f })
 	{
+		GLint viewport[4];
+		glGetIntegerv(GL_VIEWPORT, viewport);
+		aspectRatio = (float)viewport[2] / (float)viewport[3];
+
 		memcpy(
 			projection,
 			glm::value_ptr(glm::perspective(glm::radians(fov), aspectRatio, zNear, zFar)),

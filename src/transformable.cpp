@@ -27,105 +27,137 @@ namespace oglu
 
 	void Transformable::SetPosition(float x, float y, float z)
 	{
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		translation = glm::vec3(x, y, z) - translation;
-		transformation = glm::translate(transformation, translation);
+		SetPosition(glm::vec3(x, y, z));
 	}
 
 	void Transformable::SetPosition(const float* translation)
 	{
+		SetPosition(glm::make_vec3(translation));
+	}
+
+	void Transformable::SetPosition(const glm::vec3& position)
+	{
 		glm::decompose(transformation, scale, orientation, this->translation, skew, perspective);
-		this->translation = glm::make_vec3(translation) - this->translation;
+		this->translation = translation - this->translation;
 		transformation = glm::translate(transformation, this->translation);
 	}
 
 	void Transformable::SetRotation(float rotX, float rotY, float rotZ)
 	{
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		orientation = glm::quat(glm::vec3(rotX, rotY, rotZ)) - orientation;
-		transformation = glm::rotate(transformation, orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z));
+		SetRotation(glm::vec3(rotX, rotY, rotZ));
 	}
 
 	void Transformable::SetRotation(const float* rotation)
 	{
+		SetRotation(glm::make_vec3(rotation));
+	}
+
+	void Transformable::SetRotation(const glm::vec3& rotation)
+	{
 		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		orientation = glm::quat(glm::make_vec3(rotation)) - orientation;
-		transformation = glm::rotate(transformation, orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z));
+		orientation = glm::quat(glm::radians(rotation)) * (-orientation);
+		transformation = glm::rotate(transformation, glm::angle(orientation), glm::axis(orientation));
 	}
 
 	void Transformable::SetRotation(float angle, float xAxis, float yAxis, float zAxis)
 	{
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		orientation = glm::quat(glm::vec4(xAxis, yAxis, zAxis, angle)) - orientation;
-		transformation = glm::rotate(transformation, orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z));
+		SetRotation(angle, glm::vec3(xAxis, yAxis, zAxis));
 	}
 
 	void Transformable::SetRotation(float angle, const float* axis)
 	{
+		SetRotation(angle, glm::make_vec3(axis));
+	}
+
+	void Transformable::SetRotation(float angle, const glm::vec3& axis)
+	{
 		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		orientation = glm::quat(glm::vec4(axis[0], axis[1], axis[2], angle)) - orientation;
-		transformation = glm::rotate(transformation, orientation.w, glm::vec3(orientation.x, orientation.y, orientation.z));
+		orientation = glm::angleAxis(glm::radians(angle), axis) * (-orientation);
+		transformation = glm::rotate(transformation, glm::angle(orientation), glm::axis(orientation));
 	}
 
 	void Transformable::SetScale(float scaleX, float scaleY, float scaleZ)
 	{
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		scale = glm::vec3(scaleX, scaleY, scaleZ) - scale;
-		transformation = glm::scale(transformation, scale);
+		SetScale(glm::vec3(scaleX, scaleY, scaleZ));
 	}
 
 	void Transformable::SetScale(const float* scale)
 	{
+		SetScale(glm::make_vec3(scale));
+	}
+
+	void Transformable::SetScale(const glm::vec3& scale)
+	{
 		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
-		this->scale = glm::make_vec3(scale) - this->scale;
+		this->scale = scale / this->scale;
+		if (this->scale.x == INFINITY) this->scale.x = scale.x;
+		if (this->scale.y == INFINITY) this->scale.y = scale.y;
+		if (this->scale.z == INFINITY) this->scale.z = scale.z;
 		transformation = glm::scale(transformation, this->scale);
 	}
 
 	void Transformable::Move(float x, float y, float z)
 	{
-		transformation = glm::translate(transformation, glm::vec3(x, y, z));
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		Move(glm::vec3(x, y, z));
 	}
 
 	void Transformable::Move(const float* translation)
 	{
-		transformation = glm::translate(transformation, glm::make_vec3(translation));
+		Move(glm::make_vec3(translation));
+	}
+
+	void Transformable::Move(const glm::vec3& translation)
+	{
+		transformation = glm::translate(transformation, translation);
 		glm::decompose(transformation, scale, orientation, this->translation, skew, perspective);
 	}
 
 	void Transformable::Rotate(float rotX, float rotY, float rotZ)
 	{
-		transformation = glm::rotate(transformation, glm::radians(1.0f), glm::vec3(rotX, rotY, rotZ));
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		Rotate(glm::vec3(rotX, rotY, rotZ));
 	}
 
 	void Transformable::Rotate(const float* rotation)
 	{
-		transformation = glm::rotate(transformation, 1.0f, glm::make_vec3(rotation));
+		Rotate(glm::make_vec3(rotation));
+	}
+
+	void Transformable::Rotate(const glm::vec3& rotation)
+	{
+		glm::quat rot = glm::quat(glm::radians(rotation));
+		transformation = glm::rotate(transformation, glm::angle(rot), glm::axis(rot));
 		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	void Transformable::Rotate(float angle, float xAxis, float yAxis, float zAxis)
 	{
-		transformation = glm::rotate(transformation, angle, glm::vec3(xAxis, yAxis, zAxis));
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		Rotate(angle, glm::vec3(xAxis, yAxis, zAxis));
 	}
 
 	void Transformable::Rotate(float angle, const float* axis)
 	{
-		transformation = glm::rotate(transformation, angle, glm::make_vec3(axis));
+		Rotate(angle, glm::make_vec3(axis));
+	}
+
+	void Transformable::Rotate(float angle, const glm::vec3& axis)
+	{
+		transformation = glm::rotate(transformation, glm::radians(angle), axis);
 		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	void Transformable::Scale(float scaleX, float scaleY, float scaleZ)
 	{
-		transformation = glm::scale(transformation, glm::vec3(scaleX, scaleY, scaleZ));
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		Scale(glm::vec3(scaleX, scaleY, scaleZ));
 	}
 
 	void Transformable::Scale(const float* scale)
 	{
-		transformation = glm::scale(transformation, glm::make_vec3(scale));
+		Scale(glm::make_vec3(scale));
+	}
+
+	void Transformable::Scale(const glm::vec3& scale)
+	{
+		transformation = glm::scale(transformation, scale);
 		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
 	}
 
