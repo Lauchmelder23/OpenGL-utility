@@ -10,13 +10,13 @@
 namespace oglu
 {
 	oglu::Transformable::Transformable() :
-		transformation(glm::mat4(1.0f))
+		transformation(glm::mat4(1.0f)), recalculateMatrix(false)
 	{
 		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	Transformable::Transformable(const Transformable& other) :
-		transformation(other.transformation)
+		transformation(other.transformation), recalculateMatrix(false)
 	{
 		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
@@ -37,9 +37,8 @@ namespace oglu
 
 	void Transformable::SetPosition(const glm::vec3& position)
 	{
-		glm::decompose(transformation, scale, orientation, this->translation, skew, perspective);
-		this->translation = translation - this->translation;
-		transformation = glm::translate(transformation, this->translation);
+		translation = position;
+		recalculateMatrix = true;
 	}
 
 	void Transformable::SetRotation(float rotX, float rotY, float rotZ)
@@ -54,9 +53,8 @@ namespace oglu
 
 	void Transformable::SetRotation(const glm::vec3& rotation)
 	{
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		orientation = glm::quat(glm::radians(rotation)) * (-orientation);
-		transformation = glm::rotate(transformation, glm::angle(orientation), glm::axis(orientation));
+		orientation = glm::quat(glm::radians(rotation));
+		recalculateMatrix = true;
 	}
 
 	void Transformable::SetRotation(float angle, float xAxis, float yAxis, float zAxis)
@@ -71,9 +69,8 @@ namespace oglu
 
 	void Transformable::SetRotation(float angle, const glm::vec3& axis)
 	{
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
-		orientation = glm::angleAxis(glm::radians(angle), axis) * (-orientation);
-		transformation = glm::rotate(transformation, glm::angle(orientation), glm::axis(orientation));
+		orientation = glm::angleAxis(glm::radians(angle), axis);
+		recalculateMatrix = true;
 	}
 
 	void Transformable::SetScale(float scaleX, float scaleY, float scaleZ)
@@ -88,12 +85,8 @@ namespace oglu
 
 	void Transformable::SetScale(const glm::vec3& scale)
 	{
-		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
-		this->scale = scale / this->scale;
-		if (this->scale.x == INFINITY) this->scale.x = scale.x;
-		if (this->scale.y == INFINITY) this->scale.y = scale.y;
-		if (this->scale.z == INFINITY) this->scale.z = scale.z;
-		transformation = glm::scale(transformation, this->scale);
+		this->scale = scale;
+		recalculateMatrix = true;
 	}
 
 	void Transformable::Move(float x, float y, float z)
@@ -108,8 +101,8 @@ namespace oglu
 
 	void Transformable::Move(const glm::vec3& translation)
 	{
-		transformation = glm::translate(transformation, translation);
-		glm::decompose(transformation, scale, orientation, this->translation, skew, perspective);
+		this->translation += translation;
+		recalculateMatrix = true;
 	}
 
 	void Transformable::Rotate(float rotX, float rotY, float rotZ)
@@ -124,9 +117,8 @@ namespace oglu
 
 	void Transformable::Rotate(const glm::vec3& rotation)
 	{
-		glm::quat rot = glm::quat(glm::radians(rotation));
-		transformation = glm::rotate(transformation, glm::angle(rot), glm::axis(rot));
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		orientation *= glm::quat(glm::radians(rotation));
+		recalculateMatrix = true;
 	}
 
 	void Transformable::Rotate(float angle, float xAxis, float yAxis, float zAxis)
@@ -141,8 +133,8 @@ namespace oglu
 
 	void Transformable::Rotate(float angle, const glm::vec3& axis)
 	{
-		transformation = glm::rotate(transformation, glm::radians(angle), axis);
-		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		orientation *= glm::angleAxis(glm::radians(angle), axis);
+		recalculateMatrix = true;
 	}
 
 	void Transformable::Scale(float scaleX, float scaleY, float scaleZ)
@@ -157,12 +149,21 @@ namespace oglu
 
 	void Transformable::Scale(const glm::vec3& scale)
 	{
-		transformation = glm::scale(transformation, scale);
-		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
+		this->scale += scale;
+		recalculateMatrix = true;
 	}
 
 	const glm::mat4& Transformable::GetMatrix()
 	{
+		if (recalculateMatrix)
+		{
+			transformation = glm::mat4(1.0f);
+			transformation = glm::translate(transformation, translation);
+			transformation *= glm::toMat4(orientation);
+			transformation = glm::scale(transformation, scale);
+
+			recalculateMatrix = false;
+		}
 		return transformation;
 	}
 

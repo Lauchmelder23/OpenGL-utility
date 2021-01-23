@@ -334,6 +334,7 @@ namespace oglu
 		// TODO: Separate translation, rotation and scaling matrices.
 		// Combine them only when the user wants the transformation matrix
 		glm::mat4 transformation;
+		bool recalculateMatrix;
 
 		glm::vec3 scale;
 		glm::quat orientation;

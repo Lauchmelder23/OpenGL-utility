@@ -71,9 +71,9 @@ int main(int argc, char** argv)
 
 	oglu::Enable(GL_DEPTH_TEST);
 
-	oglu::Camera camera(45.0f, 1.0f, 0.1f, 100.0f);
-	camera.Move(0.0f, -5.0f, -10.0f);
-	camera.LookAt(glm::value_ptr(glm::make_vec3(utah.GetPosition()) + glm::vec3(0.0f, 2.0f, 0.0f)));
+	// oglu::Camera camera(45.0f, 1.0f, 0.1f, 100.0f);
+	//camera.Move(0.0f, -5.0f, -10.0f);
+	//camera.LookAt(glm::value_ptr(glm::make_vec3(utah.GetPosition()) + glm::vec3(0.0f, 2.0f, 0.0f)));
 
 	float t = 0.0f;
 
@@ -88,8 +88,8 @@ int main(int argc, char** argv)
 
 		shader->Use();
 		shader->SetUniform("model", utah);
-		shader->SetUniform("view", camera);
-		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, camera.GetProjectionMatrix());
+		//shader->SetUniform("view", camera);
+		//shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, camera.GetProjectionMatrix());
 
 		oglu::PolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		utah.Render();

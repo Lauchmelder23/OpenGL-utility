@@ -13,7 +13,6 @@
 #include <shader.hpp>
 #include <texture.hpp>
 #include <object.hpp>
-#include <camera.hpp>
 
 namespace oglu
 {
