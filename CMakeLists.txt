@@ -28,7 +28,7 @@ add_library(openglu SHARED
 	${include_files}
 	${source_files}
 	"cpp.hint"
- "src/transformable.cpp")
+)
 
 target_compile_definitions(openglu PRIVATE OGLU_BUILD_DLL)
 
@@ -48,7 +48,6 @@ if(${build_documentation})
 		COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_BINARY_DIR}/doxyfile"
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Building documentation..."
-		VERBATIM
     )
 endif()
 

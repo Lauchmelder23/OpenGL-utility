@@ -1,4 +1,4 @@
-add_executable(debug "main.cpp")
+add_executable(debug "main.cpp" "shaders/fragmentShader.frag" "shaders/vertexShader.vert")
 
 find_package(glfw3 REQUIRED)
 

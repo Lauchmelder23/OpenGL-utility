@@ -9,6 +9,8 @@
 #include <texture.hpp>
 #include <transformable.hpp>
 
+#include <glm/gtc/type_ptr.hpp>
+
 namespace oglu
 {
 	AbstractShader::AbstractShader(const AbstractShader& other) :
@@ -254,7 +256,7 @@ namespace oglu
 
 	void AbstractShader::SetUniform(GLint location, Transformable& v0, GLboolean transpose)
 	{
-		glUniformMatrix4fv(location, 1, transpose, v0.GetMatrix());
+		glUniformMatrix4fv(location, 1, transpose, glm::value_ptr(v0.GetMatrix()));
 	}
 
 	void AbstractShader::SetUniform1fv(const GLchar* name, GLsizei count, const GLfloat* value)

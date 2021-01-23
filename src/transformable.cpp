@@ -2,266 +2,182 @@
 
 #include <algorithm>
 
-#include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace oglu
 {
 	oglu::Transformable::Transformable() :
-		position(new float[3]{ 0.f }), rotation(new float[16]), scaling(new float[3]{ 1.f, 1.f, 1.f }), transformation(new float[16]), calculateMatrix(false)
+		transformation(glm::mat4(1.0f))
 	{
-		glm::mat4 identity(1.0f);
-		memcpy(
-			rotation,
-			glm::value_ptr(identity),
-			16 * sizeof(float)
-		);
-		memcpy(
-			transformation,
-			glm::value_ptr(identity),
-			16 * sizeof(float)
-		);
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	Transformable::Transformable(const Transformable& other) :
-		position(new float[3]), rotation(new float[16]), scaling(new float[3]), transformation(new float[16]), calculateMatrix(true)
+		transformation(other.transformation)
 	{
-		memcpy(
-			this->position,
-			other.position,
-			3 * sizeof(float)
-		);
-
-		memcpy(
-			this->rotation,
-			other.rotation,
-			16 * sizeof(float)
-		);
-
-		memcpy(
-			this->scaling,
-			other.scaling,
-			3 * sizeof(float)
-		);
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	Transformable::~Transformable()
 	{
-		delete[] scaling;
-		delete[] rotation;
-		delete[] position;
 	}
 
 	void Transformable::SetPosition(float x, float y, float z)
 	{
-		this->position[0] = x;
-		this->position[1] = y;
-		this->position[2] = z;
-		calculateMatrix = true;
+		SetPosition(glm::vec3(x, y, z));
 	}
 
 	void Transformable::SetPosition(const float* translation)
 	{
-		memcpy(
-			this->position,
-			translation,
-			3 * sizeof(float)
-		);
-		calculateMatrix = true;
+		SetPosition(glm::make_vec3(translation));
+	}
+
+	void Transformable::SetPosition(const glm::vec3& position)
+	{
+		glm::decompose(transformation, scale, orientation, this->translation, skew, perspective);
+		this->translation = translation - this->translation;
+		transformation = glm::translate(transformation, this->translation);
 	}
 
 	void Transformable::SetRotation(float rotX, float rotY, float rotZ)
 	{
-		// TODO: Using rotation matrices is stupid. Eventually this could (should) be done with quaternions
-		// For now we'll just risk gimbal locking the model
-		memcpy(
-			this->rotation,
-			glm::value_ptr(
-				glm::rotate(
-					glm::rotate(
-						glm::rotate(
-							glm::mat4(1.0f), glm::radians(rotX), glm::vec3(1.0f, 0.0f, 0.0f)
-						), glm::radians(rotY), glm::vec3(0.0f, 1.0f, 0.0f)
-					), glm::radians(rotZ), glm::vec3(0.0f, 0.0f, 1.0f)
-				)
-			),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		SetRotation(glm::vec3(rotX, rotY, rotZ));
 	}
 
 	void Transformable::SetRotation(const float* rotation)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(
-				glm::rotate(
-					glm::rotate(
-						glm::rotate(
-							glm::mat4(1.0f), glm::radians(rotation[0]), glm::vec3(1.0f, 0.0f, 0.0f)
-						), glm::radians(rotation[1]), glm::vec3(0.0f, 1.0f, 0.0f)
-					), glm::radians(rotation[2]), glm::vec3(0.0f, 0.0f, 1.0f)
-				)
-			),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		SetRotation(glm::make_vec3(rotation));
+	}
+
+	void Transformable::SetRotation(const glm::vec3& rotation)
+	{
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		orientation = glm::quat(glm::radians(rotation)) * (-orientation);
+		transformation = glm::rotate(transformation, glm::angle(orientation), glm::axis(orientation));
 	}
 
 	void Transformable::SetRotation(float angle, float xAxis, float yAxis, float zAxis)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(xAxis, yAxis, zAxis))),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		SetRotation(angle, glm::vec3(xAxis, yAxis, zAxis));
 	}
 
 	void Transformable::SetRotation(float angle, const float* axis)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::make_vec3(axis))),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		SetRotation(angle, glm::make_vec3(axis));
+	}
+
+	void Transformable::SetRotation(float angle, const glm::vec3& axis)
+	{
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
+		orientation = glm::angleAxis(glm::radians(angle), axis) * (-orientation);
+		transformation = glm::rotate(transformation, glm::angle(orientation), glm::axis(orientation));
 	}
 
 	void Transformable::SetScale(float scaleX, float scaleY, float scaleZ)
 	{
-		this->scaling[0] = scaleX;
-		this->scaling[1] = scaleY;
-		this->scaling[2] = scaleZ;
-		calculateMatrix = true;
+		SetScale(glm::vec3(scaleX, scaleY, scaleZ));
 	}
 
 	void Transformable::SetScale(const float* scale)
 	{
-		memcpy(
-			this->scaling,
-			scale,
-			3 * sizeof(float)
-		);
-		calculateMatrix = true;
+		SetScale(glm::make_vec3(scale));
+	}
+
+	void Transformable::SetScale(const glm::vec3& scale)
+	{
+		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
+		this->scale = scale / this->scale;
+		if (this->scale.x == INFINITY) this->scale.x = scale.x;
+		if (this->scale.y == INFINITY) this->scale.y = scale.y;
+		if (this->scale.z == INFINITY) this->scale.z = scale.z;
+		transformation = glm::scale(transformation, this->scale);
 	}
 
 	void Transformable::Move(float x, float y, float z)
 	{
-		this->position[0] += x;
-		this->position[1] += y;
-		this->position[2] += z;
-		calculateMatrix = true;
+		Move(glm::vec3(x, y, z));
 	}
 
 	void Transformable::Move(const float* translation)
 	{
-		this->position[0] += translation[0];
-		this->position[1] += translation[1];
-		this->position[2] += translation[2];
-		calculateMatrix = true;
+		Move(glm::make_vec3(translation));
+	}
+
+	void Transformable::Move(const glm::vec3& translation)
+	{
+		transformation = glm::translate(transformation, translation);
+		glm::decompose(transformation, scale, orientation, this->translation, skew, perspective);
 	}
 
 	void Transformable::Rotate(float rotX, float rotY, float rotZ)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(
-				glm::rotate(
-					glm::rotate(
-						glm::rotate(
-							glm::make_mat4(this->rotation), glm::radians(rotX), glm::vec3(1.0f, 0.0f, 0.0f)
-						), glm::radians(rotY), glm::vec3(0.0f, 1.0f, 0.0f)
-					), glm::radians(rotZ), glm::vec3(0.0f, 0.0f, 1.0f)
-				)
-			),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		Rotate(glm::vec3(rotX, rotY, rotZ));
 	}
 
 	void Transformable::Rotate(const float* rotation)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(
-				glm::rotate(
-					glm::rotate(
-						glm::rotate(
-							glm::make_mat4(this->rotation), glm::radians(rotation[0]), glm::vec3(1.0f, 0.0f, 0.0f)
-						), glm::radians(rotation[1]), glm::vec3(0.0f, 1.0f, 0.0f)
-					), glm::radians(rotation[2]), glm::vec3(0.0f, 0.0f, 1.0f)
-				)
-			),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		Rotate(glm::make_vec3(rotation));
+	}
+
+	void Transformable::Rotate(const glm::vec3& rotation)
+	{
+		glm::quat rot = glm::quat(glm::radians(rotation));
+		transformation = glm::rotate(transformation, glm::angle(rot), glm::axis(rot));
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	void Transformable::Rotate(float angle, float xAxis, float yAxis, float zAxis)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(glm::rotate(glm::make_mat4(this->rotation), glm::radians(angle), glm::vec3(xAxis, yAxis, zAxis))),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		Rotate(angle, glm::vec3(xAxis, yAxis, zAxis));
 	}
 
 	void Transformable::Rotate(float angle, const float* axis)
 	{
-		memcpy(
-			this->rotation,
-			glm::value_ptr(glm::rotate(glm::make_mat4(this->rotation), glm::radians(angle), glm::make_vec3(axis))),
-			16 * sizeof(float)
-		);
-		calculateMatrix = true;
+		Rotate(angle, glm::make_vec3(axis));
+	}
+
+	void Transformable::Rotate(float angle, const glm::vec3& axis)
+	{
+		transformation = glm::rotate(transformation, glm::radians(angle), axis);
+		glm::decompose(transformation, scale, orientation, translation, skew, perspective);
 	}
 
 	void Transformable::Scale(float scaleX, float scaleY, float scaleZ)
 	{
-		this->scaling[0] += scaleX;
-		this->scaling[1] += scaleY;
-		this->scaling[2] += scaleZ;
-		calculateMatrix = true;
+		Scale(glm::vec3(scaleX, scaleY, scaleZ));
 	}
 
 	void Transformable::Scale(const float* scale)
 	{
-		this->scaling[0] += scale[0];
-		this->scaling[1] += scale[1];
-		this->scaling[2] += scale[2];
-		calculateMatrix = true;
+		Scale(glm::make_vec3(scale));
 	}
 
-	const float* Transformable::GetMatrix()
+	void Transformable::Scale(const glm::vec3& scale)
 	{
-		if (calculateMatrix)
-		{
-			memcpy(
-				transformation,
-				glm::value_ptr(glm::translate(glm::mat4(1.0f), glm::make_vec3(position)) * glm::make_mat4(rotation) * glm::scale(glm::mat4(1.0f), glm::make_vec3(scaling))),
-				16 * sizeof(float)
-			);
-			calculateMatrix = false;
-		}
+		transformation = glm::scale(transformation, scale);
+		glm::decompose(transformation, this->scale, orientation, translation, skew, perspective);
+	}
 
+	const glm::mat4& Transformable::GetMatrix()
+	{
 		return transformation;
 	}
 
-	const float* Transformable::GetPosition() const
+	const glm::vec3& Transformable::GetPosition() const
 	{
-		return position;
+		return translation;
 	}
 
-	const float* Transformable::GetRotation() const
+	const glm::quat& Transformable::GetRotation() const
 	{
-		return rotation;
+		return orientation;
 	}
 
-	const float* Transformable::GetScaling() const
+	const glm::vec3& Transformable::GetScaling() const
 	{
-		return scaling;
+		return scale;
 	}
 }
