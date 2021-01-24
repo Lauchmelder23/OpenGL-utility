@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f  // back top left 
 	};
 
-	unsigned int indices[] = { 
+	unsigned int indices[] = {
 		0, 1, 3,	// front
 		1, 2, 3,
 		7, 4, 0,	// top

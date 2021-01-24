@@ -163,6 +163,47 @@ namespace oglu
 		void Roll(float angle);
 
 		/**
+		 * @brief Move camera forward.
+		 * 
+		 * Moves the camera along the @p front vector.
+		 * 
+		 * @param[in] amount Amount to move by
+		 */
+		void Forward(float amount);
+
+		/**
+		 * @brief Move camera sideways.
+		 *
+		 * Moves the camera along the @p right vector.
+		 *
+		 * @param[in] amount Amount to move by
+		 */
+		void Sideways(float amount);
+
+		/**
+		 * @brief Move camera upwards.
+		 *
+		 * Moves the camera along the @p up vector.
+		 *
+		 * @param[in] amount Amount to move by
+		 */
+		void Upwards(float amount);
+
+		/**
+		 * @brief Sets a new FOV for the camera.
+		 * 
+		 * @param[in] fov The new FOV
+		 */
+		void SetFOV(float fov);
+
+		/**
+		 * @brief Sets a new aspect ratio for the camera.
+		 *
+		 * @param[in] aspectRatio The new aspect ratio
+		 */
+		void SetAspectRatio(float aspectRatio);
+
+		/**
 		 * @brief Get the view matrix.
 		 * 
 		 * @returns A 4x4 view matrix

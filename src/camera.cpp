@@ -81,7 +81,6 @@ namespace oglu
 	void Camera::LookAt(const glm::vec3& target)
 	{
 		front = glm::normalize(target - position);
-		transformation = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
 		right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
 		up = glm::normalize(glm::cross(right, front));
 	}
@@ -94,26 +93,51 @@ namespace oglu
 	void Camera::Pan(float angle)
 	{
 		front = glm::rotate(glm::angleAxis(glm::radians(angle), up), front);
-		transformation = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
 		right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
 	}
 
 	void Camera::Tilt(float angle)
 	{
 		front = glm::rotate(glm::angleAxis(glm::radians(angle), right), front);
-		transformation = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
 		up = glm::normalize(glm::cross(right, front));
 	}
 
 	void Camera::Roll(float angle)
 	{
 		up = glm::rotate(glm::angleAxis(glm::radians(angle), front), front);
-		transformation = glm::lookAt(position, position + front, up);
 		right = glm::normalize(glm::cross(front, up));
+	}
+
+	void Camera::Forward(float amount)
+	{
+		position += front * amount;
+	}
+
+	void Camera::Sideways(float amount)
+	{
+		position += right * amount;
+	}
+
+	void Camera::Upwards(float amount)
+	{
+		position += up * amount;
+	}
+
+	void Camera::SetFOV(float fov)
+	{
+		this->fov = fov;
+		projection = glm::perspective(fov, aspectRatio, zNear, zFar);
+	}
+
+	void Camera::SetAspectRatio(float aspectRatio)
+	{
+		this->aspectRatio = aspectRatio;
+		projection = glm::perspective(fov, aspectRatio, zNear, zFar);
 	}
 
 	const glm::mat4& Camera::GetMatrix()
 	{
+		transformation = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
 		return transformation;
 	}
 

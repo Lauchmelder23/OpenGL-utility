@@ -373,8 +373,6 @@ namespace oglu
 		virtual const glm::vec3& GetScaling() const;
 
 	protected:
-		// TODO: Separate translation, rotation and scaling matrices.
-		// Combine them only when the user wants the transformation matrix
 		glm::mat4 transformation;
 		bool recalculateMatrix;
 
