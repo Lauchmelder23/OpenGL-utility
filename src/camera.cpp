@@ -1,6 +1,8 @@
 #include "camera.hpp"
+#include <iostream>
 
 #include <glm/gtx/matrix_decompose.hpp>
+#include <glm/gtx/vector_angle.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <transformable.hpp>
@@ -92,14 +94,24 @@ namespace oglu
 
 	void Camera::Pan(float angle)
 	{
-		front = glm::rotate(glm::angleAxis(glm::radians(angle), up), front);
+		front = glm::rotate(glm::angleAxis(glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f)), front);
 		right = glm::normalize(glm::cross(front, glm::vec3(0.0f, 1.0f, 0.0f)));
 	}
 
 	void Camera::Tilt(float angle)
 	{
-		front = glm::rotate(glm::angleAxis(glm::radians(angle), right), front);
-		up = glm::normalize(glm::cross(right, front));
+		glm::vec3 futureFront = glm::rotate(glm::angleAxis(glm::radians(angle), right), front);
+		glm::vec3 futureUp = glm::normalize(glm::cross(right, futureFront));
+
+		if (futureUp.y < 0.01f)
+		{
+			futureUp.y = 0.01f;
+			futureUp = glm::normalize(futureUp);
+			futureFront = glm::cross(up, right);
+		}
+
+		front = futureFront;
+		up = futureUp;
 	}
 
 	void Camera::Roll(float angle)
