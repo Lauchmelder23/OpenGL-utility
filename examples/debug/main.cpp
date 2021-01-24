@@ -48,15 +48,30 @@ int main(int argc, char** argv)
 
 	// Create vertices for square
 	float vertices[] = {
-		 0.5f,  0.5f, 0.0f,		1.0f, 1.0f, // top right
-		 0.5f, -0.5f, 0.0f,		1.0f, 0.0f,	// bottom right
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, // bottom left
-		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f  // top left 
+		 0.5f,  0.5f, 0.5f,		1.0f, 1.0f, // front top right
+		 0.5f, -0.5f, 0.5f,		1.0f, 0.0f,	// front bottom right
+		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f, // front bottom left
+		-0.5f,  0.5f, 0.5f,		0.0f, 1.0f, // front top left 
+
+		 0.5f,  0.5f, -0.5f,	0.0f, 1.0f, // back top right
+		 0.5f, -0.5f, -0.5f,	0.0f, 0.0f,	// back bottom right
+		-0.5f, -0.5f, -0.5f,	1.0f, 0.0f, // back bottom left
+		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f  // back top left 
 	};
 
 	unsigned int indices[] = { 
-		0, 1, 3,   // first triangle
-		1, 2, 3    // second triangle
+		0, 1, 3,	// front
+		1, 2, 3,
+		7, 4, 0,	// top
+		7, 0, 3,
+		0, 4, 5,	// right
+		0, 5, 1,
+		7, 3, 2,	// right
+		7, 2, 6,
+		2, 1, 6,	// bottom
+		1, 6, 5,
+		4, 7, 5,	// back
+		7, 6, 5
 	};
 
 	oglu::VertexAttribute topology[] = {
@@ -70,11 +85,6 @@ int main(int argc, char** argv)
 
 	square.Move(-0.6f, 0.0f, 0.0f);
 	square2.Move(0.6f, 0.0f, 0.0f);
-
-	//square.GlobalRotate(45.0f, 0.0f, 0.0f);
-	//square.GlobalRotate(0.0f, 0.0f, 45.0f);
-
-	//square.SetGlobalRotation(45.0f, 0.0f, 45.0f);
 
 	// Create a shader
 	oglu::Shader shader;
@@ -92,11 +102,7 @@ int main(int argc, char** argv)
 	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
 	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
 
-	glm::mat4 view(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
-
-	glm::mat4 projection(1.0f);
-	projection = glm::perspective(45.0f, 1.0f, 0.1f, 100.0f);
+	oglu::Camera camera;
 
 	// Window loop
 	oglu::Enable(GL_DEPTH_TEST);
@@ -108,17 +114,15 @@ int main(int argc, char** argv)
 
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
 
-		// view = glm::rotate(view, glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-		square.Pitch(6.0f);
-		square2.Pitch(-6.0f);
+		camera.SetPosition(4.0f * sinf(t), 3.0f * sinf(0.238f * t), 4.0f * cosf(t));
+		camera.LookAt(0.0f, 0.0f, 0.0f);
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);
 		shader->SetUniform("texture2", opengl, 1);
 		shader->SetUniform("model", square);
-		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(view));
-		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(projection));
+		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
+		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
 		square.Render();
 
@@ -128,7 +132,7 @@ int main(int argc, char** argv)
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		t += 0.1f;
+		t += 0.05f;
 	}
 
 	glfwTerminate();
