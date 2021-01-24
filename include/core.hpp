@@ -17,6 +17,7 @@
 
 #include <glad/glad.h>
 
+
 #ifdef OGLU_WIN32
 	#ifdef OGLU_BUILD_DLL
 		#define OGLU_API __declspec(dllexport)

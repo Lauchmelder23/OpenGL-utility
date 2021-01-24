@@ -6,6 +6,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
+
 bool firstMouse = true;
 bool escaped = false;
 double lastX = 0.0f;
@@ -16,7 +19,7 @@ oglu::Camera camera(45.0f, 16.f / 9.f, 0.01f, 100.0f);
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	oglu::SetViewport(0, 0, width, height);
-	camera.SetAspectRatio((float)width / (float)height);
+	camera.aspectRatio = ((float)width / (float)height);
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -103,6 +106,14 @@ int main(int argc, char** argv)
 	// glad stuff
 	oglu::LoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	oglu::SetViewport(0, 0, windowWidth, windowHeight);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init();
+	ImGui::StyleColorsDark();
 
 	// Create vertices for square
 	float vertices[] = {
@@ -198,11 +209,15 @@ int main(int argc, char** argv)
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	oglu::Color bgColor(0.29f, 0.13f, 0.23f);
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
+		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, bgColor);
 
-		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, oglu::Color(0.29f, 0.13f, 0.23f));
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
 
 		shader->Use();
 		shader->SetUniform("texture1", crate, 0);
@@ -216,11 +231,25 @@ int main(int argc, char** argv)
 			cube.Render();
 		}
 
+		ImGui::Begin("Test");
+		ImGui::ColorEdit3("Background color", &bgColor.r);
+		ImGui::SliderFloat("FOV", &camera.fov, 30.0f, 100.0f);
+		ImGui::SliderFloat("zNear", &camera.zNear, 0.01, 1.0f);
+		ImGui::SliderFloat("zFar", &camera.zFar, 2.0f, 100.0f);
+		ImGui::End();
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
 		t += 0.05f;
 	}
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
 
 	glfwTerminate();
 	return 0;

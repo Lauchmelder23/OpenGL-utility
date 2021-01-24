@@ -19,6 +19,9 @@
         https://glad.dav1d.de/#profile=compatibility&language=c&specification=gl&loader=on&api=gl%3D4.6
 */
 
+#pragma warning(push)
+#pragma warning(disable: 4273 4217)
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2530,3 +2533,4 @@ int gladLoadGLLoader(GLADloadproc load) {
 	return GLVersion.major != 0 || GLVersion.minor != 0;
 }
 
+#pragma warning(pop)

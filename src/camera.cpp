@@ -135,18 +135,6 @@ namespace oglu
 		position += up * amount;
 	}
 
-	void Camera::SetFOV(float fov)
-	{
-		this->fov = fov;
-		projection = glm::perspective(fov, aspectRatio, zNear, zFar);
-	}
-
-	void Camera::SetAspectRatio(float aspectRatio)
-	{
-		this->aspectRatio = aspectRatio;
-		projection = glm::perspective(fov, aspectRatio, zNear, zFar);
-	}
-
 	const glm::mat4& Camera::GetMatrix()
 	{
 		transformation = glm::lookAt(position, position + front, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -155,6 +143,6 @@ namespace oglu
 
 	const glm::mat4& Camera::GetProjection()
 	{
-		return projection;
+		return projection = glm::perspective(glm::radians(fov), aspectRatio, zNear, zFar);;
 	}
 }

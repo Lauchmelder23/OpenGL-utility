@@ -190,20 +190,6 @@ namespace oglu
 		void Upwards(float amount);
 
 		/**
-		 * @brief Sets a new FOV for the camera.
-		 * 
-		 * @param[in] fov The new FOV
-		 */
-		void SetFOV(float fov);
-
-		/**
-		 * @brief Sets a new aspect ratio for the camera.
-		 *
-		 * @param[in] aspectRatio The new aspect ratio
-		 */
-		void SetAspectRatio(float aspectRatio);
-
-		/**
 		 * @brief Get the view matrix.
 		 * 
 		 * @returns A 4x4 view matrix
@@ -217,6 +203,13 @@ namespace oglu
 		 */
 		const glm::mat4& GetProjection();
 
+	public:
+
+		float fov;					///< FOV of the camera
+		float aspectRatio;			///< Aspect ratio of the camera
+		float zNear;				///< Near clipping plane
+		float zFar;					///< Far clipping plane
+
 	private:
 		glm::mat4 projection;		///< The projection matrix
 		glm::mat4 transformation;	///< The view matrix
@@ -224,11 +217,6 @@ namespace oglu
 		glm::vec3 front;			///< The cameras front vector
 		glm::vec3 right;			///< The cameras right vector
 		glm::vec3 up;				///< The cameras up vector
-
-		float fov;					///< FOV of the camera
-		float aspectRatio;			///< Aspect ratio of the camera
-		float zNear;				///< Near clipping plane
-		float zFar;					///< Far clipping plane
 	};
 }
 

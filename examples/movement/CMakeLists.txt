@@ -1,4 +1,11 @@
-add_executable(movement "main.cpp" "shaders/fragmentShader.frag" "shaders/vertexShader.vert")
+file(GLOB_RECURSE imgui_files
+	"imgui/*.cpp"
+)
+
+add_executable(movement 
+	"main.cpp" "shaders/fragmentShader.frag" "shaders/vertexShader.vert"
+	${imgui_files}
+)
 
 find_package(glfw3 REQUIRED)
 

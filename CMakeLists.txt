@@ -4,8 +4,12 @@ project(OpenGLUtility)
 
 # set(CMAKE_CXX_STANDARD 17)
 
-set(build_examples ON CACHE BOOL "Build examples")
-set(build_documentation ON CACHE BOOL "Generate documentation")
+set(BUILD_EXAMPLES ON CACHE BOOL "Build examples")
+set(BUILD_DOCUMENTATION ON CACHE BOOL "Generate documentation")
+
+if(WIN32)
+	set(EXPOSE_OPENGL OFF CACHE BOOL "If you want to use raw OpenGL functions in your app (e.g. to use ImGui) check this")
+endif()
 
 if(${build_documentation})
 	find_package(Doxygen REQUIRED)
@@ -13,6 +17,9 @@ endif()
 
 if(WIN32)
 	add_compile_definitions(OGLU_WIN32)
+	if(${EXPOSE_OPENGL})
+		add_compile_definitions(GLAD_GLAPI_EXPORT)
+	endif()
 endif()
 
 file(GLOB_RECURSE include_files 
