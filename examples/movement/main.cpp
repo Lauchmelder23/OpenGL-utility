@@ -11,7 +11,7 @@ bool escaped = false;
 double lastX = 0.0f;
 double lastY = 0.0f;
 
-oglu::Camera camera;
+oglu::Camera camera(45.0f, 16.f / 9.f, 0.01f, 100.0f);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -31,8 +31,8 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 		firstMouse = false;
 	}
 
-	float xoffset = xpos - lastX;
-	float yoffset = lastY - ypos;
+	float xoffset = (float)xpos - (float)lastX;
+	float yoffset = (float)lastY - (float)ypos;
 	lastX = xpos;
 	lastY = ypos;
 
@@ -42,12 +42,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 	camera.Pan(-xoffset);
 	camera.Tilt(yoffset);
-
-	//glm::vec3 direction;
-	//direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	//direction.y = sin(glm::radians(pitch));
-	//direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	//cameraFront = glm::normalize(direction);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -90,10 +84,11 @@ int main(int argc, char** argv)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	const GLFWvidmode* screen = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	int windowSize = screen->height / 4 * 3;
+	int windowHeight = screen->height / 5 * 4;
+	int windowWidth = (int)(16.f / 9.f * windowHeight);
 
 	// Create Window
-	GLFWwindow* window = glfwCreateWindow(windowSize, windowSize, "First Person Movement Test", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "First Person Movement Test", NULL, NULL);
 	if (window == nullptr)
 	{
 		std::cerr << "Failed to create GLFW window" << std::endl;
@@ -107,7 +102,7 @@ int main(int argc, char** argv)
 
 	// glad stuff
 	oglu::LoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	oglu::SetViewport(0, 0, windowSize, windowSize);
+	oglu::SetViewport(0, 0, windowWidth, windowHeight);
 
 	// Create vertices for square
 	float vertices[] = {

@@ -9,6 +9,8 @@
 #ifndef CORE_HPP
 #define CORE_HPP
 
+#pragma warning(disable : 4251)
+
 #include <memory>
 #include <stdexcept>
 #include <string>

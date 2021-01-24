@@ -28,6 +28,7 @@ namespace oglu
 
 	std::shared_ptr<AbstractVertexArray> MakeVertexArray(const char* filepath)
 	{
+		// This sucks
 		std::ifstream file(filepath);
 		if (!file.good())
 		{
@@ -102,7 +103,7 @@ namespace oglu
 
 		glBindVertexArray(0);
 
-		count = indicesSize / sizeof(GLuint);
+		count = (GLsizei)(indicesSize / sizeof(GLuint));
 	}
 
 	void AbstractVertexArray::Bind()
