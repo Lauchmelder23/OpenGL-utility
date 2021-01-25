@@ -19,6 +19,10 @@ namespace oglu
 
 	typedef std::shared_ptr<AbstractTexture> Texture;
 
+	class AbstractShader;
+
+	typedef std::shared_ptr<AbstractShader> Shader;
+
 	/**
 	 * @brief An object representing an OpenGL Shader Program.
 	 * 
@@ -40,7 +44,7 @@ namespace oglu
 		 * 
 		 * @return A shared pointer to the shader program.
 		 */
-		friend std::shared_ptr<AbstractShader> OGLU_API MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile);
+		friend Shader OGLU_API MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile);
 		
 		/**
 		 * @brief Copy constructor.
@@ -294,7 +298,7 @@ namespace oglu
 		 * @param[in] v0 Value to set the uniform to
 		 * @param[in] index Index of the texture unit
 		 */
-		void SetUniform(const GLchar* name, const Texture& v0, GLbyte index = 0);
+		void SetUniformTexture(const GLchar* name, const Texture& v0, GLbyte index = 0);
 
 		/**
 		 * @brief Set uniform color.
@@ -308,7 +312,7 @@ namespace oglu
 		 * @param[in] v0 Value to set the uniform to
 		 * @param[in] index Index of the texture unit
 		 */
-		void SetUniform(GLint location, const Texture& v0, GLbyte index = 0);
+		void SetUniformTexture(GLint location, const Texture& v0, GLbyte index = 0);
 
 		/**
 		 * @brief Set uniform mat4.
@@ -318,6 +322,7 @@ namespace oglu
 		 *
 		 * @param[in] name Name of the uniform
 		 * @param[in] v0 Value to set the uniform to
+		 * @param[in] transpose Transpose matrix before setting the uniform
 		 */
 		void SetUniform(const GLchar* name, Transformable& v0, GLboolean transpose = GL_FALSE);
 
@@ -329,6 +334,7 @@ namespace oglu
 		 *
 		 * @param[in] location Location of the uniform
 		 * @param[in] v0 Value to set the uniform to
+		 * @param[in] transpose Transpose matrix before setting the uniform
 		 */
 		void SetUniform(GLint location, Transformable& v0, GLboolean transpose = GL_FALSE);
 
@@ -754,7 +760,7 @@ namespace oglu
 		GLuint program;	///< Handle to the Shader program
 	};
 
-	typedef std::shared_ptr<AbstractShader> Shader;
+	Shader OGLU_API MakeShader(const char* vertexShaderFile, const char* fragmentShaderFile);
 }
 
 #endif

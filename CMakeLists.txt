@@ -11,7 +11,7 @@ if(WIN32)
 	set(EXPOSE_OPENGL OFF CACHE BOOL "If you want to use raw OpenGL functions in your app (e.g. to use ImGui) check this")
 endif()
 
-if(${build_documentation})
+if(${BUILD_DOCUMENTATION})
 	find_package(Doxygen REQUIRED)
 endif()
 
@@ -49,7 +49,7 @@ target_include_directories(openglu PUBLIC
 	vendor/include
 )
 
-if(${build_documentation})
+if(${BUILD_DOCUMENTATION})
 	configure_file(doxyfile.in ${CMAKE_BINARY_DIR}/doxyfile @ONLY)
     add_custom_target(openglu_doc ALL
 		COMMAND ${DOXYGEN_EXECUTABLE} "${CMAKE_BINARY_DIR}/doxyfile"
@@ -58,7 +58,7 @@ if(${build_documentation})
     )
 endif()
 
-if(${build_examples})
+if(${BUILD_EXAMPLES})
 	macro(subdirlist result curdir)
 		file(GLOB children RELATIVE ${curdir} ${curdir}/*)
 		set(dirlist "")
