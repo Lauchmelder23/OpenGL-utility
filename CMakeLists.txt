@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 
 project(OpenGLUtility)
 
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_EXAMPLES ON CACHE BOOL "Build examples")
