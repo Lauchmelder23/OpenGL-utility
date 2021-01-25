@@ -21,6 +21,10 @@ namespace oglu
 	 */
 	void OGLU_API ActiveTexture(GLubyte index);
 
+	class AbstractTexture;
+
+	typedef std::shared_ptr<AbstractTexture> Texture;
+
 	/**
 	 * @brief An object representing an OpenGL Texture.
 	 *
@@ -41,7 +45,7 @@ namespace oglu
 		 *
 		 * @return A shared pointer to the texture.
 		 */
-		friend std::shared_ptr<AbstractTexture> OGLU_API MakeTexture(const char* filename);
+		friend Texture OGLU_API MakeTexture(const char* filename);
 
 		/**
 		 * @brief Copy constructor.
@@ -93,7 +97,7 @@ namespace oglu
 		GLuint texture;	///< OpenGL handle to the texture
 	};
 
-	typedef std::shared_ptr<AbstractTexture> Texture;
+	Texture OGLU_API MakeTexture(const char* filename);
 }
 
 #endif

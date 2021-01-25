@@ -238,12 +238,12 @@ namespace oglu
 			glUniform4f(location, v0.r, v0.g, v0.b, v0.a);
 	}
 
-	void AbstractShader::SetUniform(const GLchar* name, const Texture& v0, GLbyte index)
+	void AbstractShader::SetUniformTexture(const GLchar* name, const Texture& v0, GLbyte index)
 	{
-		SetUniform(glGetUniformLocation(program, name), v0, index);
+		SetUniformTexture(glGetUniformLocation(program, name), v0, index);
 	}
 
-	void AbstractShader::SetUniform(GLint location, const Texture& v0, GLbyte index)
+	void AbstractShader::SetUniformTexture(GLint location, const Texture& v0, GLbyte index)
 	{
 		v0->BindAs(index);
 		glUniform1i(location, index);

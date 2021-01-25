@@ -27,6 +27,10 @@ namespace oglu
 		/*@}*/
 	};
 
+	class AbstractVertexArray;
+
+	typedef std::shared_ptr<AbstractVertexArray> VertexArray;
+
 	/**
 	 * @brief An object representing an OpenGL VAO.
 	 *
@@ -52,7 +56,7 @@ namespace oglu
 		 *
 		 * @return A shared pointer to the texture.
 		 */
-		friend std::shared_ptr<AbstractVertexArray> OGLU_API MakeVertexArray(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
+		friend VertexArray OGLU_API MakeVertexArray(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
 
 		/**
 		 * @brief Constructs a new VAO.
@@ -61,7 +65,7 @@ namespace oglu
 		 * 
 		 * @param[in] filepath Path to the .obj file
 		 */
-		friend std::shared_ptr<AbstractVertexArray> OGLU_API MakeVertexArray(const char* filepath);
+		friend VertexArray OGLU_API MakeVertexArray(const char* filepath);
 
 		/**
 		 * @brief Copy constructor.
@@ -127,7 +131,8 @@ namespace oglu
 		GLsizei count;	///< Amount of indices
 	};
 
-	typedef std::shared_ptr<AbstractVertexArray> VertexArray;
+	VertexArray OGLU_API MakeVertexArray(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
+	VertexArray OGLU_API MakeVertexArray(const char* filepath);
 }
 
 #endif

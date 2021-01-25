@@ -220,8 +220,8 @@ int main(int argc, char** argv)
 		ImGui::NewFrame();
 
 		shader->Use();
-		shader->SetUniform("texture1", crate, 0);
-		shader->SetUniform("texture2", opengl, 1);
+		shader->SetUniformTexture("texture1", crate, 0);
+		shader->SetUniformTexture("texture2", opengl, 1);
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
