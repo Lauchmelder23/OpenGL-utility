@@ -79,6 +79,6 @@ if(${BUILD_EXAMPLES})
 endif()
 
 install(
-	ALLOW_DUPLICATE_CUSTOM_TARGETS openglu
+	TARGETS openglu
 	LIBRARY DESTINATION lib
 )
