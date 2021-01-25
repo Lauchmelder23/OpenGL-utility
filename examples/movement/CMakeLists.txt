@@ -32,8 +32,8 @@ add_custom_command(TARGET movement POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:movement>/assets
 )
 
-# if(WIN32)
-# 	add_custom_command(TARGET movement POST_BUILD
-# 		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:openglu> $<TARGET_FILE:glfw> $<TARGET_FILE_DIR:movement>
-# 	)
-# endif()
+if(WIN32)
+	add_custom_command(TARGET movement POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:openglu> $<TARGET_FILE:glfw> $<TARGET_FILE_DIR:movement>
+	)
+endif()

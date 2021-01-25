@@ -33,6 +33,8 @@ file(GLOB_RECURSE source_files
 	"vendor/src/*.c"
 )
 
+message(STATUS ${source_files})
+
 add_library(openglu SHARED 
 	${include_files}
 	${source_files}

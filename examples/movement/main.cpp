@@ -201,6 +201,9 @@ int main(int argc, char** argv)
 	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
 	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
 
+	oglu::AmbientLight ambient;
+	ambient.intensity = 0.1f;
+
 	camera.Move(0.0f, 0.0f, 5.0f);
 
 	// Window loop
@@ -209,7 +212,7 @@ int main(int argc, char** argv)
 
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	oglu::Color bgColor(0.29f, 0.13f, 0.23f);
+	oglu::Color bgColor = oglu::Color::Black;
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -222,6 +225,8 @@ int main(int argc, char** argv)
 		shader->Use();
 		shader->SetUniformTexture("texture1", crate, 0);
 		shader->SetUniformTexture("texture2", opengl, 1);
+		shader->SetUniform("ambientStrength", ambient.intensity);
+		shader->SetUniform("ambientColor", ambient.color, true);
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 

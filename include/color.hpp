@@ -33,7 +33,7 @@ namespace oglu
 		 * @param green Green component
 		 * @param alpha Red component
 		 */
-		Color(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha = 255);
+		Color(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha = 0.f);
 		
 	public:
 		GLfloat r;	///< Red channel
