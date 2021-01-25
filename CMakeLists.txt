@@ -77,3 +77,8 @@ if(${BUILD_EXAMPLES})
 		add_subdirectory(examples/${sample})
 	endforeach()
 endif()
+
+install(
+	ALLOW_DUPLICATE_CUSTOM_TARGETS openglu
+	LIBRARY DESTINATION lib
+)
