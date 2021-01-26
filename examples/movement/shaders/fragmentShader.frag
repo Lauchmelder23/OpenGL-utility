@@ -20,7 +20,9 @@ void main()
 	vec3 norm = normalize(oNormal);
 	vec3 lightDir = normalize(lightPos - oFragPos);
 
-	float diff = max(dot(norm, lightDir), 0.0);
+	float diff = max(dot(norm, lightDir), 0.0) * 10.0;
+	diff *= min(1.0 / length(lightPos - oFragPos), 10.0);
+	
 	vec3 diffuse = diff * lightColor;
 
 	vec4 objColor = mix(texture(texture1, oUV), texture(texture2, oUV), 0.2);
