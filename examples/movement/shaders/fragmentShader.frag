@@ -20,8 +20,8 @@ void main()
 	vec3 norm = normalize(oNormal);
 	vec3 lightDir = normalize(lightPos - oFragPos);
 
-	float diff = max(dot(norm, lightDir), 0.0) * 10.0;
-	diff *= min(1.0 / length(lightPos - oFragPos), 10.0);
+	float diff = max(dot(norm, lightDir), 0.0) * 2.0;
+	diff *= min(1.0 / pow(length(lightPos - oFragPos), 2), 2.0);
 	
 	vec3 diffuse = diff * lightColor;
 
