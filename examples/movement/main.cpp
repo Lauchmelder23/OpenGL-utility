@@ -298,8 +298,10 @@ int main(int argc, char** argv)
 			ImGui::SliderFloat("zFar", &camera.zFar, 2.0f, 100.0f);
 		}
 
+		ImGui::SetNextItemOpen(true);
 		if(ImGui::CollapsingHeader("Lighting"))
 		{
+			ImGui::SetNextItemOpen(true);
 			if (ImGui::TreeNode("Ambient"))
 			{
 				ImGui::ColorEdit3("Color", &ambient.color.r);
@@ -309,6 +311,7 @@ int main(int argc, char** argv)
 				ImGui::Separator();
 			}
 
+			ImGui::SetNextItemOpen(true);
 			if (ImGui::TreeNode("Point"))
 			{
 				ImGui::ColorEdit3("Color", &pointLight.color.r);
