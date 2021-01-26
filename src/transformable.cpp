@@ -197,6 +197,11 @@ namespace oglu
 		return transformation;
 	}
 
+	glm::mat3 Transformable::GetNormalMatrix()
+	{
+		return glm::mat3(glm::transpose(glm::inverse(GetMatrix())));
+	}
+
 	const glm::vec3& Transformable::GetPosition() const
 	{
 		return translation;

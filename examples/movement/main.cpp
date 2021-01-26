@@ -274,7 +274,7 @@ int main(int argc, char** argv)
 		for (oglu::Object& cube : cubes)
 		{
 			shader->SetUniform("model", cube);
-			shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(glm::mat3(glm::transpose(glm::inverse(cube.GetMatrix())))));
+			shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(cube.GetNormalMatrix()));
 			cube.Render();
 		}
 

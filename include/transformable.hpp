@@ -352,6 +352,15 @@ namespace oglu
 		virtual const glm::mat4& GetMatrix();
 
 		/**
+		 * @brief Returns a normal matrix.
+		 * 
+		 * For use in shaders to compute normals of surfaces.
+		 * 
+		 * @return A 3x3 normal matrix
+		 */
+		glm::mat3 GetNormalMatrix();
+
+		/**
 		 * @brief Get position as a 3D vector.
 		 * 
 		 * @returns A pointer to an array of floats
