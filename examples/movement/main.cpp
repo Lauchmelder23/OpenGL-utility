@@ -117,39 +117,72 @@ int main(int argc, char** argv)
 
 	// Create vertices for square
 	float vertices[] = {
-		 0.5f,  0.5f, 0.5f,		1.0f, 1.0f, // front top right
-		 0.5f, -0.5f, 0.5f,		1.0f, 0.0f,	// front bottom right
-		-0.5f, -0.5f, 0.5f,		0.0f, 0.0f, // front bottom left
-		-0.5f,  0.5f, 0.5f,		0.0f, 1.0f, // front top left 
+		 -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f, 0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 0.0f, -1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 0.0f, 0.0f, -1.0f,
 
-		 0.5f,  0.5f, -0.5f,	0.0f, 1.0f, // back top right
-		 0.5f, -0.5f, -0.5f,	0.0f, 0.0f,	// back bottom right
-		-0.5f, -0.5f, -0.5f,	1.0f, 0.0f, // back bottom left
-		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f  // back top left 
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f, 0.0f, -1.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f, 0.0f, -1.0f, 0.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f
 	};
 
-	unsigned int indices[] = {
-		0, 1, 3,	// front
-		1, 2, 3,
-		7, 4, 0,	// top
-		7, 0, 3,
-		0, 4, 5,	// right
-		0, 5, 1,
-		7, 3, 2,	// right
-		7, 2, 6,
-		2, 1, 6,	// bottom
-		1, 6, 5,
-		4, 7, 5,	// back
-		7, 6, 5
-	};
+	//unsigned int indices[] = {
+	//	0, 1, 3,	// front
+	//	1, 2, 3,
+	//	7, 4, 0,	// top
+	//	7, 0, 3,
+	//	0, 4, 5,	// right
+	//	0, 5, 1,
+	//	7, 3, 2,	// right
+	//	7, 2, 6,
+	//	2, 1, 6,	// bottom
+	//	1, 6, 5,
+	//	4, 7, 5,	// back
+	//	7, 6, 5
+	//};
 
 	oglu::VertexAttribute topology[] = {
-		{ 0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0 },
-		{ 1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)) }
+		{ 0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0 },
+		{ 1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)) },
+		{ 2, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(5 * sizeof(float)) }
 	};
 
 	// Make a square
-	oglu::VertexArray cubeDefault = oglu::MakeVertexArray(vertices, sizeof(vertices), indices, sizeof(indices), topology, sizeof(topology));
+	oglu::VertexArray cubeDefault = oglu::MakeVertexArray(vertices, sizeof(vertices), nullptr, 0, topology, sizeof(topology));
 	oglu::Object cubes[10] = { 
 		oglu::Object(cubeDefault),
 		oglu::Object(cubeDefault),
@@ -185,11 +218,15 @@ int main(int argc, char** argv)
 	cubes[8].SetRotation(150.0f, 20.0f, -150.0f);
 	cubes[9].SetRotation(-130.0f, 10.0f, -150.0f);
 
+	oglu::Object lightSource(cubeDefault);
+	lightSource.SetScale(glm::vec3(0.1f));
+
 	// Create a shader
-	oglu::Shader shader;
+	oglu::Shader shader, lightSourceShader;
 	try
 	{
 		shader = oglu::MakeShader("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
+		lightSourceShader = oglu::MakeShader("shaders/lightSourceShader.vert", "shaders/lightSourceShader.frag");
 	}
 	catch (const std::runtime_error& e)
 	{
@@ -213,6 +250,7 @@ int main(int argc, char** argv)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	oglu::Color bgColor = oglu::Color::Black;
+	lightSource.SetPosition(1.0f, 1.0f, -1.0f);
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -225,15 +263,27 @@ int main(int argc, char** argv)
 		shader->Use();
 		shader->SetUniformTexture("texture1", crate, 0);
 		shader->SetUniformTexture("texture2", opengl, 1);
+
 		shader->SetUniform("ambientColor", "ambientStrength", ambient);
+		shader->SetUniform3fv("lightPos", 1, glm::value_ptr(lightSource.GetPosition()));
+		shader->SetUniform("lightColor", oglu::Color::White, true);
+
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
 		for (oglu::Object& cube : cubes)
 		{
 			shader->SetUniform("model", cube);
+			shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(glm::mat3(glm::transpose(glm::inverse(cube.GetMatrix())))));
 			cube.Render();
 		}
+
+		lightSourceShader->Use();
+		lightSourceShader->SetUniform("model", lightSource);
+		lightSourceShader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
+		lightSourceShader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
+		lightSourceShader->SetUniform("color", oglu::Color::White, true);
+		lightSource.Render();
 
 		ImGui::Begin("Test");
 

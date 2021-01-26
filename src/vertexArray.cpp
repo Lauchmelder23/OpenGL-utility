@@ -8,7 +8,7 @@
 namespace oglu
 {
 	AbstractVertexArray::AbstractVertexArray(const AbstractVertexArray& other) :
-		VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), count(other.count)
+		VAO(other.VAO), VBO(other.VBO), EBO(other.EBO), count(other.count), useIndices(other.useIndices)
 	{
 	}
 
@@ -82,10 +82,13 @@ namespace oglu
 					const VertexAttribute* topology, size_t topologySize) :
 		VAO(0), VBO(0), EBO(0), count(0)
 	{
+		useIndices = (indices != nullptr);
+
 		topologySize /= sizeof(VertexAttribute);
 
 		glGenBuffers(1, &VBO);
-		glGenBuffers(1, &EBO);
+		if(useIndices)
+			glGenBuffers(1, &EBO);
 
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
@@ -93,8 +96,11 @@ namespace oglu
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, verticesSize, vertices, GL_STATIC_DRAW);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
+		if (useIndices)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesSize, indices, GL_STATIC_DRAW);
+		}
 
 		for (int i = 0; i < topologySize; i++)
 		{
@@ -103,7 +109,12 @@ namespace oglu
 
 		glBindVertexArray(0);
 
-		count = (GLsizei)(indicesSize / sizeof(GLuint));
+		if (useIndices)
+			count = (GLsizei)(indicesSize / sizeof(GLuint));
+		else
+		{
+			count = (GLsizei)(verticesSize / sizeof(GLfloat)) / (topology[0].stride / sizeof(GLfloat));
+		}
 	}
 
 	void AbstractVertexArray::Bind()
@@ -124,7 +135,15 @@ namespace oglu
 	void AbstractVertexArray::BindAndDraw()
 	{
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (GLvoid*)0);
+		if (useIndices)
+		{
+			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, (GLvoid*)0);
+		}
+		else
+		{
+			glDrawArrays(GL_TRIANGLES, 0, count);
+		}
+		
 		glBindVertexArray(0);
 	}
 

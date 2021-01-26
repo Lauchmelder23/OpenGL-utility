@@ -129,6 +129,7 @@ namespace oglu
 		GLuint VBO;		///< Handle to OpenGL VBO
 		GLuint EBO;		///< Handle to OpenGL EBO
 		GLsizei count;	///< Amount of indices
+		bool useIndices;
 	};
 
 	VertexArray OGLU_API MakeVertexArray(const GLfloat* vertices, size_t verticesSize, const GLuint* indices, size_t indicesSize, const VertexAttribute* topology, size_t topologySize);
