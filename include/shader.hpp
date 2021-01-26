@@ -16,6 +16,7 @@ namespace oglu
 	class Color;
 	class AbstractTexture;
 	class Transformable;
+	class AmbientLight;
 
 	typedef std::shared_ptr<AbstractTexture> Texture;
 
@@ -337,6 +338,28 @@ namespace oglu
 		 * @param[in] transpose Transpose matrix before setting the uniform
 		 */
 		void SetUniform(GLint location, Transformable& v0, GLboolean transpose = GL_FALSE);
+
+		/**
+		 * @brief Set the ambient lighting.
+		 * 
+		 * This function sets two variables, the ambient color and the intensity
+		 * 
+		 * @param[in] colorName The name of the uniform holding the color information (must be vec3)
+		 * @param[in] intensityName The name of the uniform holding the intensity information (must be float)
+		 * @param[in] v0 A reference to an AmbientLight
+		 */
+		void SetUniform(const GLchar* colorName, const GLchar* intensityName, const AmbientLight& v0);
+
+		/**
+		 * @brief Set the ambient lighting.
+		 *
+		 * This function sets two variables, the ambient color and the intensity
+		 *
+		 * @param[in] colorLocation The location of the uniform holding the color information (must be vec3)
+		 * @param[in] intensityLocation The location of the uniform holding the intensity information (must be float)
+		 * @param[in] v0 A reference to an AmbientLight
+		 */
+		void SetUniform(GLint colorLocation, GLint intensityLocation, const AmbientLight& v0);
 
 		/**
 		 * @brief Set array of uniform float.

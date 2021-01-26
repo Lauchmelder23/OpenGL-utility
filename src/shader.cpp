@@ -8,6 +8,7 @@
 #include <color.hpp>
 #include <texture.hpp>
 #include <transformable.hpp>
+#include <lighting/ambient.hpp>
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -257,6 +258,21 @@ namespace oglu
 	void AbstractShader::SetUniform(GLint location, Transformable& v0, GLboolean transpose)
 	{
 		glUniformMatrix4fv(location, 1, transpose, glm::value_ptr(v0.GetMatrix()));
+	}
+
+	void AbstractShader::SetUniform(const GLchar* colorName, const GLchar* intensityName, const AmbientLight& v0)
+	{
+		SetUniform(
+			glGetUniformLocation(program, colorName), 
+			glGetUniformLocation(program, intensityName),
+			v0
+		);
+	}
+
+	void AbstractShader::SetUniform(GLint colorLocation, GLint intensityLocation, const AmbientLight& v0)
+	{
+		SetUniform(colorLocation, v0.color, true);
+		SetUniform(intensityLocation, v0.intensity);
 	}
 
 	void AbstractShader::SetUniform1fv(const GLchar* name, GLsizei count, const GLfloat* value)

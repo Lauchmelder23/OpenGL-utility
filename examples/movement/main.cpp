@@ -225,8 +225,7 @@ int main(int argc, char** argv)
 		shader->Use();
 		shader->SetUniformTexture("texture1", crate, 0);
 		shader->SetUniformTexture("texture2", opengl, 1);
-		shader->SetUniform("ambientStrength", ambient.intensity);
-		shader->SetUniform("ambientColor", ambient.color, true);
+		shader->SetUniform("ambientColor", "ambientStrength", ambient);
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
@@ -237,10 +236,27 @@ int main(int argc, char** argv)
 		}
 
 		ImGui::Begin("Test");
-		ImGui::ColorEdit3("Background color", &bgColor.r);
-		ImGui::SliderFloat("FOV", &camera.fov, 30.0f, 100.0f);
-		ImGui::SliderFloat("zNear", &camera.zNear, 0.01, 1.0f);
-		ImGui::SliderFloat("zFar", &camera.zFar, 2.0f, 100.0f);
+
+		if(ImGui::CollapsingHeader("Scene"));
+		{
+			ImGui::ColorEdit3("Background color", &bgColor.r);
+			ImGui::SliderFloat("FOV", &camera.fov, 30.0f, 100.0f);
+			ImGui::SliderFloat("zNear", &camera.zNear, 0.01, 1.0f);
+			ImGui::SliderFloat("zFar", &camera.zFar, 2.0f, 100.0f);
+		}
+
+		if(ImGui::CollapsingHeader("Lighting"))
+		{
+			if (ImGui::TreeNode("Ambient"))
+			{
+				ImGui::ColorEdit3("Color", &ambient.color.r);
+				ImGui::SliderFloat("Intensity", &ambient.intensity, 0.0f, 1.0f);
+
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+		}
+
 		ImGui::End();
 
 		ImGui::Render();
