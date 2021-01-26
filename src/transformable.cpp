@@ -183,9 +183,9 @@ namespace oglu
 		recalculateMatrix = true;
 	}
 
-	const glm::mat4& Transformable::GetMatrix()
+	const glm::mat4& Transformable::GetMatrix(bool forceRecalc)
 	{
-		if (recalculateMatrix)
+		if (recalculateMatrix || forceRecalc)
 		{
 			transformation = glm::mat4(1.0f);
 			transformation = glm::translate(transformation, translation);

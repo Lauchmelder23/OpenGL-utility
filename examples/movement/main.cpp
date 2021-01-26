@@ -221,6 +221,9 @@ int main(int argc, char** argv)
 	oglu::Object lightSource(cubeDefault);
 	lightSource.SetScale(glm::vec3(0.1f));
 
+	oglu::PointLight pointLight;
+	pointLight.LinkPositionToTransformable(lightSource);
+
 	// Create a shader
 	oglu::Shader shader, lightSourceShader;
 	try
@@ -266,7 +269,7 @@ int main(int argc, char** argv)
 
 		shader->SetUniform("ambientColor", "ambientStrength", ambient);
 		shader->SetUniform3fv("lightPos", 1, glm::value_ptr(lightSource.GetPosition()));
-		shader->SetUniform("lightColor", oglu::Color::White, true);
+		shader->SetUniform("lightColor", pointLight.color, true);
 
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
@@ -279,10 +282,10 @@ int main(int argc, char** argv)
 		}
 
 		lightSourceShader->Use();
-		lightSourceShader->SetUniform("model", lightSource);
+		lightSourceShader->SetUniformMatrix4fv("model", 1, GL_FALSE, glm::value_ptr(lightSource.GetMatrix(true)));
 		lightSourceShader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		lightSourceShader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
-		lightSourceShader->SetUniform("color", oglu::Color::White, true);
+		lightSourceShader->SetUniform("color", pointLight.color, true);
 		lightSource.Render();
 
 		ImGui::Begin("Test");
@@ -301,6 +304,15 @@ int main(int argc, char** argv)
 			{
 				ImGui::ColorEdit3("Color", &ambient.color.r);
 				ImGui::SliderFloat("Intensity", &ambient.intensity, 0.0f, 1.0f);
+
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+
+			if (ImGui::TreeNode("Point"))
+			{
+				ImGui::ColorEdit3("Color", &pointLight.color.r);
+				ImGui::SliderFloat3("Position", pointLight.GetPositionPointer(), -5.0f, 5.0f);
 
 				ImGui::TreePop();
 				ImGui::Separator();

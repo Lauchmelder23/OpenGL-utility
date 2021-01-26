@@ -15,6 +15,7 @@
 
 namespace oglu
 {
+	class PointLight;
 	/**
 	 * @brief Defines position, rotation and scale.
 	 * 
@@ -23,6 +24,9 @@ namespace oglu
 	 */
 	class OGLU_API Transformable
 	{
+	private:
+		friend class PointLight;
+
 	public:
 		/**
 		 * @brief Create new identity transformation.
@@ -349,7 +353,7 @@ namespace oglu
 		 *
 		 * @return An array of 16 floats representing the transformation matrix
 		 */
-		virtual const glm::mat4& GetMatrix();
+		virtual const glm::mat4& GetMatrix(bool forceRecalc = false);
 
 		/**
 		 * @brief Returns a normal matrix.

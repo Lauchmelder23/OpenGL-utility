@@ -16,6 +16,7 @@
 #include <camera.hpp>
 
 #include <lighting/ambient.hpp>
+#include <lighting/point.hpp>
 
 namespace oglu
 {
