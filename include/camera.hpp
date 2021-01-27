@@ -75,6 +75,13 @@ namespace oglu
 		void SetPosition(const glm::vec3& position);
 
 		/**
+		 * @brief Get the cameras position.
+		 * 
+		 * @returns a 3D vector pointing to the position of the camera
+		 */
+		const glm::vec3 GetPosition();
+
+		/**
 		 * @brief Offset the cameras position
 		 *
 		 * @param[in] x x offset

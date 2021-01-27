@@ -9,11 +9,26 @@
 #define OBJECT_HPP
 
 #include <core.hpp>
+#include <color.hpp>
 #include <transformable.hpp>
 #include <vertexArray.hpp>
 
 namespace oglu
 {
+	/**
+	 * @brief A structure representing an object's material.
+	 */
+	class OGLU_API Material
+	{
+	public:
+		Color ambient = Color::White;
+		Color diffuse = Color::White;
+		Color specular = Color::White;
+		float shininess = 32.0f;
+	};
+
+	typedef std::shared_ptr<Material> SharedMaterial;
+
 	/**
 	 * @brief An object in 3D space.
 	 * 
@@ -62,6 +77,10 @@ namespace oglu
 		 * @brief Render the object
 		 */
 		void Render();
+
+		void CopyMaterial(const Material& other);
+
+		SharedMaterial material;
 
 	private:
 		VertexArray VAO;	///< The VAO used for rendering

@@ -25,6 +25,7 @@ namespace oglu
 	public:
 		Color color;
 
+
 	private:
 		glm::vec3* position;
 		bool isLinked;

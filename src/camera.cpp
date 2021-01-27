@@ -52,6 +52,11 @@ namespace oglu
 		LookAt(this->position + front);
 	}
 
+	const glm::vec3 Camera::GetPosition()
+	{
+		return position;
+	}
+
 	void Camera::Move(float x, float y, float z)
 	{
 		this->position += glm::vec3(x, y, z);

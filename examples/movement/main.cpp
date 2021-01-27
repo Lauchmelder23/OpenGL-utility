@@ -183,6 +183,7 @@ int main(int argc, char** argv)
 
 	// Make a square
 	oglu::VertexArray cubeDefault = oglu::MakeVertexArray(vertices, sizeof(vertices), nullptr, 0, topology, sizeof(topology));
+	oglu::SharedMaterial cubeMaterial(new oglu::Material);
 	oglu::Object cubes[10] = { 
 		oglu::Object(cubeDefault),
 		oglu::Object(cubeDefault),
@@ -217,6 +218,9 @@ int main(int argc, char** argv)
 	cubes[7].SetRotation(150.0f, 200.0f, -25.0f);
 	cubes[8].SetRotation(150.0f, 20.0f, -150.0f);
 	cubes[9].SetRotation(-130.0f, 10.0f, -150.0f);
+
+	for (oglu::Object& cube : cubes)
+		cube.material = cubeMaterial;
 
 	oglu::Object lightSource(cubeDefault);
 	lightSource.SetScale(glm::vec3(0.1f));
@@ -254,6 +258,7 @@ int main(int argc, char** argv)
 
 	oglu::Color bgColor = oglu::Color::Black;
 	lightSource.SetPosition(1.0f, 1.0f, -1.0f);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -271,6 +276,8 @@ int main(int argc, char** argv)
 		shader->SetUniform3fv("lightPos", 1, glm::value_ptr(lightSource.GetPosition()));
 		shader->SetUniform("lightColor", pointLight.color, true);
 
+		shader->SetUniform3fv("viewPos", 1, glm::value_ptr(camera.GetPosition()));
+
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
@@ -278,6 +285,11 @@ int main(int argc, char** argv)
 		{
 			shader->SetUniform("model", cube);
 			shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(cube.GetNormalMatrix()));
+
+			shader->SetUniform("material.ambient", cube.material->ambient, true);
+			shader->SetUniform("material.diffuse", cube.material->diffuse, true);
+			shader->SetUniform("material.specular", cube.material->specular, true);
+			shader->SetUniform("material.shininess", cube.material->shininess);
 			cube.Render();
 		}
 
@@ -316,6 +328,18 @@ int main(int argc, char** argv)
 			{
 				ImGui::ColorEdit3("Color", &pointLight.color.r);
 				ImGui::SliderFloat3("Position", pointLight.GetPositionPointer(), -5.0f, 5.0f);
+
+				ImGui::TreePop();
+				ImGui::Separator();
+			}
+
+			ImGui::SetNextItemOpen(true);
+			if (ImGui::TreeNode("Cube Material"))
+			{
+				ImGui::ColorEdit3("Ambient", &(cubeMaterial->ambient.r));
+				ImGui::ColorEdit3("Diffuse", &(cubeMaterial->diffuse.r));
+				ImGui::ColorEdit3("Specular", &(cubeMaterial->specular.r));
+				ImGui::SliderFloat("Shininess", &(cubeMaterial->shininess), 1.0f, 256.0f);
 
 				ImGui::TreePop();
 				ImGui::Separator();
