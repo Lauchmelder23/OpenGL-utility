@@ -272,9 +272,10 @@ int main(int argc, char** argv)
 		shader->SetUniformTexture("texture1", crate, 0);
 		shader->SetUniformTexture("texture2", opengl, 1);
 
-		shader->SetUniform("ambientColor", "ambientStrength", ambient);
-		shader->SetUniform3fv("lightPos", 1, glm::value_ptr(lightSource.GetPosition()));
-		shader->SetUniform("lightColor", pointLight.color, true);
+		shader->SetUniform("light.ambient", "light.ambientStrength", ambient);
+		shader->SetUniform3fv("light.position", 1, glm::value_ptr(lightSource.GetPosition()));
+		shader->SetUniform("light.diffuse", pointLight.diffusionColor, true);
+		shader->SetUniform("light.specular", pointLight.specularColor, true);
 
 		shader->SetUniform3fv("viewPos", 1, glm::value_ptr(camera.GetPosition()));
 
@@ -297,11 +298,12 @@ int main(int argc, char** argv)
 		lightSourceShader->SetUniformMatrix4fv("model", 1, GL_FALSE, glm::value_ptr(lightSource.GetMatrix(true)));
 		lightSourceShader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		lightSourceShader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
-		lightSourceShader->SetUniform("color", pointLight.color, true);
+		lightSourceShader->SetUniform("color", pointLight.diffusionColor, true);
 		lightSource.Render();
 
-		ImGui::Begin("Test");
+		ImGui::Begin("Controls");
 
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if(ImGui::CollapsingHeader("Scene"));
 		{
 			ImGui::ColorEdit3("Background color", &bgColor.r);
@@ -310,10 +312,10 @@ int main(int argc, char** argv)
 			ImGui::SliderFloat("zFar", &camera.zFar, 2.0f, 100.0f);
 		}
 
-		ImGui::SetNextItemOpen(true);
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if(ImGui::CollapsingHeader("Lighting"))
 		{
-			ImGui::SetNextItemOpen(true);
+			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 			if (ImGui::TreeNode("Ambient"))
 			{
 				ImGui::ColorEdit3("Color", &ambient.color.r);
@@ -323,27 +325,24 @@ int main(int argc, char** argv)
 				ImGui::Separator();
 			}
 
-			ImGui::SetNextItemOpen(true);
+			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 			if (ImGui::TreeNode("Point"))
 			{
-				ImGui::ColorEdit3("Color", &pointLight.color.r);
+				ImGui::ColorEdit3("Diffusion", &pointLight.diffusionColor.r);
+				ImGui::ColorEdit3("Specular", &pointLight.specularColor.r);
 				ImGui::SliderFloat3("Position", pointLight.GetPositionPointer(), -5.0f, 5.0f);
 
 				ImGui::TreePop();
-				ImGui::Separator();
 			}
+		}
 
-			ImGui::SetNextItemOpen(true);
-			if (ImGui::TreeNode("Cube Material"))
-			{
-				ImGui::ColorEdit3("Ambient", &(cubeMaterial->ambient.r));
-				ImGui::ColorEdit3("Diffuse", &(cubeMaterial->diffuse.r));
-				ImGui::ColorEdit3("Specular", &(cubeMaterial->specular.r));
-				ImGui::SliderFloat("Shininess", &(cubeMaterial->shininess), 1.0f, 256.0f);
-
-				ImGui::TreePop();
-				ImGui::Separator();
-			}
+		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+		if (ImGui::CollapsingHeader("Cube Material"))
+		{
+			ImGui::ColorEdit3("Ambient", &(cubeMaterial->ambient.r));
+			ImGui::ColorEdit3("Diffuse", &(cubeMaterial->diffuse.r));
+			ImGui::ColorEdit3("Specular", &(cubeMaterial->specular.r));
+			ImGui::SliderFloat("Shininess", &(cubeMaterial->shininess), 1.0f, 256.0f);
 		}
 
 		ImGui::End();

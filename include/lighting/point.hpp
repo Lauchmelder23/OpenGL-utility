@@ -13,7 +13,7 @@ namespace oglu
 	{
 	public:
 		PointLight();
-		PointLight(const glm::vec3& position, const Color& color);
+		PointLight(const glm::vec3& position, const Color& diffusionColor = Color::White, const Color& specularColor = Color::White);
 		PointLight(const PointLight& other);
 
 		~PointLight();
@@ -23,7 +23,8 @@ namespace oglu
 		float* GetPositionPointer();
 
 	public:
-		Color color;
+		Color diffusionColor;
+		Color specularColor;
 
 
 	private:

@@ -5,18 +5,18 @@
 namespace oglu
 {
 	PointLight::PointLight() :
-		position(new glm::vec3(0.0f)), color(oglu::Color::White)
+		position(new glm::vec3(0.0f)), diffusionColor(oglu::Color::White), specularColor(oglu::Color::White)
 	{
 	}
 
-	PointLight::PointLight(const glm::vec3& position, const Color& color) :
-		position(new glm::vec3(0.0f)), color(color)
+	PointLight::PointLight(const glm::vec3& position, const Color& diffusionColor, const Color& specularColor) :
+		position(new glm::vec3(0.0f)), diffusionColor(diffusionColor), specularColor(specularColor)
 	{
 		memcpy(this->position, &position, sizeof(glm::vec3));
 	}
 
 	PointLight::PointLight(const PointLight& other) :
-		position(new glm::vec3(0.0f)), color(other.color)
+		position(new glm::vec3(0.0f)), diffusionColor(other.diffusionColor), specularColor(other.specularColor)
 	{
 		memcpy(this->position, position, sizeof(glm::vec3));
 	}
