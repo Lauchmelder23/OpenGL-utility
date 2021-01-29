@@ -160,21 +160,6 @@ int main(int argc, char** argv)
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f
 	};
 
-	//unsigned int indices[] = {
-	//	0, 1, 3,	// front
-	//	1, 2, 3,
-	//	7, 4, 0,	// top
-	//	7, 0, 3,
-	//	0, 4, 5,	// right
-	//	0, 5, 1,
-	//	7, 3, 2,	// right
-	//	7, 2, 6,
-	//	2, 1, 6,	// bottom
-	//	1, 6, 5,
-	//	4, 7, 5,	// back
-	//	7, 6, 5
-	//};
-
 	oglu::VertexAttribute topology[] = {
 		{ 0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0 },
 		{ 1, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)) },
@@ -279,16 +264,13 @@ int main(int argc, char** argv)
 
 		shader->Use();
 
-		
-		shader->SetUniform("light.ambient", "light.ambientStrength", ambient);
-		/*
-		shader->SetUniform3fv("light.position", 1, glm::value_ptr(lightSource.GetPosition()));
-		shader->SetUniform("light.diffuse", pointLight.diffusionColor, true);
-		shader->SetUniform("light.specular", pointLight.specularColor, true);
-		shader->SetUniform("light.constant", pointLight.constant);
-		shader->SetUniform("light.linear", pointLight.linear);
-		shader->SetUniform("light.quadratic", pointLight.quadratic);
-		*/
+		shader->SetUniform("pointLight.ambient", "pointLight.ambientStrength", ambient);
+		shader->SetUniform3fv("pointLight.position", 1, glm::value_ptr(lightSource.GetPosition()));
+		shader->SetUniform("pointLight.diffuse", pointLight.diffusionColor, true);
+		shader->SetUniform("pointLight.specular", pointLight.specularColor, true);
+		shader->SetUniform("pointLight.constant", pointLight.constant);
+		shader->SetUniform("pointLight.linear", pointLight.linear);
+		shader->SetUniform("pointLight.quadratic", pointLight.quadratic);
 
 		shader->SetUniform3fv("fl.position", 1, glm::value_ptr(camera.GetPosition()));
 		shader->SetUniform3fv("fl.direction", 1, glm::value_ptr(flashlight.direction));
@@ -317,14 +299,12 @@ int main(int argc, char** argv)
 			cube.Render();
 		}
 
-		/*
 		lightSourceShader->Use();
 		lightSourceShader->SetUniformMatrix4fv("model", 1, GL_FALSE, glm::value_ptr(lightSource.GetMatrix(true)));
 		lightSourceShader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		lightSourceShader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 		lightSourceShader->SetUniform("color", pointLight.diffusionColor, true);
 		lightSource.Render();
-		*/
 
 		ImGui::Begin("Controls");
 
@@ -350,7 +330,7 @@ int main(int argc, char** argv)
 				ImGui::Separator();
 			}
 
-			ImGui::SetNextItemOpen(false, ImGuiCond_Once);
+			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 			if (ImGui::TreeNode("Point"))
 			{
 				ImGui::ColorEdit3("Diffusion", &pointLight.diffusionColor.r);
