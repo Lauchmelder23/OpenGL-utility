@@ -211,7 +211,6 @@ namespace oglu
 		const glm::mat4& GetProjection();
 
 	public:
-
 		float fov;					///< FOV of the camera
 		float aspectRatio;			///< Aspect ratio of the camera
 		float zNear;				///< Near clipping plane
