@@ -71,7 +71,7 @@ namespace oglu
 		 * @param name The name of the property
 		 * @returns The value of the stored property
 		 */
-		template<typename T> inline T GetPropertyValue(const std::string& name, std::ostream& errorStream = OGLU_ERROR_STREAM)
+		template<typename T> inline T& GetPropertyValue(const std::string& name, std::ostream& errorStream = OGLU_ERROR_STREAM)
 		{
 			return *(GetProperty<T>(name, errorStream));
 		}

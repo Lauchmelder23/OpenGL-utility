@@ -80,6 +80,9 @@ namespace oglu
 		Color diffusionColor;	///< Diffusion color of the light
 		Color specularColor;	///< Specular color of the light
 
+		float constant;			///< Constant value of the attenuation term
+		float linear;			///< Coefficient of the linear attenuation term
+		float quadratic;		///< Coefficient of the quadratic attenuation term
 
 	private:
 		glm::vec3* position;	///< Position of the light

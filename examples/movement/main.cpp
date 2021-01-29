@@ -186,9 +186,9 @@ int main(int argc, char** argv)
 	oglu::SharedMaterial cubeMaterial(new oglu::Material);
 
 	//cubeMaterial->AddProperty("ambient", oglu::Color::White);
-	cubeMaterial->AddProperty("diffuse", oglu::Color::White);
-	cubeMaterial->AddProperty("specular", oglu::Color::White);
 	cubeMaterial->AddProperty("shininess", 32.f);
+	cubeMaterial->AddProperty("diffuse", oglu::MakeTexture("assets/metalbox_diffuse.png"));
+	cubeMaterial->AddProperty("specular", oglu::MakeTexture("assets/metalbox_bump.png"));
 
 	oglu::Object cubes[10] = { 
 		oglu::Object(cubeDefault),
@@ -247,10 +247,6 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	// Create a texture
-	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
-	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
-
 	oglu::AmbientLight ambient;
 	ambient.intensity = 0.1f;
 
@@ -275,28 +271,29 @@ int main(int argc, char** argv)
 		ImGui::NewFrame();
 
 		shader->Use();
-		shader->SetUniformTexture("texture1", crate, 0);
-		shader->SetUniformTexture("texture2", opengl, 1);
 
 		shader->SetUniform("light.ambient", "light.ambientStrength", ambient);
 		shader->SetUniform3fv("light.position", 1, glm::value_ptr(lightSource.GetPosition()));
 		shader->SetUniform("light.diffuse", pointLight.diffusionColor, true);
 		shader->SetUniform("light.specular", pointLight.specularColor, true);
+		shader->SetUniform("light.constant", pointLight.constant);
+		shader->SetUniform("light.linear", pointLight.linear);
+		shader->SetUniform("light.quadratic", pointLight.quadratic);
 
 		shader->SetUniform3fv("viewPos", 1, glm::value_ptr(camera.GetPosition()));
 
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
+		shader->SetUniformTexture("material.diffuse", cubeMaterial->GetPropertyValue<oglu::Texture>("diffuse"), 0);
+		shader->SetUniformTexture("material.specular", cubeMaterial->GetPropertyValue<oglu::Texture>("specular"), 1);
+		shader->SetUniform("material.shininess", cubeMaterial->GetPropertyValue<float>("shininess"));
+
 		for (oglu::Object& cube : cubes)
 		{
 			shader->SetUniform("model", cube);
 			shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(cube.GetNormalMatrix()));
 
-			shader->SetUniform("material.ambient", cube.material->GetPropertyValue<oglu::Color>("ambient"), true);
-			shader->SetUniform("material.diffuse", cube.material->GetPropertyValue<oglu::Color>("diffuse"), true);
-			shader->SetUniform("material.specular", cube.material->GetPropertyValue<oglu::Color>("specular"), true);
-			shader->SetUniform("material.shininess", cube.material->GetPropertyValue<float>("shininess"));
 			cube.Render();
 		}
 
@@ -338,6 +335,16 @@ int main(int argc, char** argv)
 				ImGui::ColorEdit3("Specular", &pointLight.specularColor.r);
 				ImGui::SliderFloat3("Position", pointLight.GetPositionPointer(), -5.0f, 5.0f);
 
+				ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+				if (ImGui::TreeNode("Attenuation"))
+				{
+					ImGui::SliderFloat("Constant", &pointLight.constant, 1.0f, 4.0f);
+					ImGui::SliderFloat("Linear", &pointLight.linear, 0.0014f, 0.7f);
+					ImGui::SliderFloat("Quadratic", &pointLight.quadratic, 0.00007f, 1.8f);
+
+					ImGui::TreePop();
+				}
+
 				ImGui::TreePop();
 			}
 		}
@@ -345,9 +352,6 @@ int main(int argc, char** argv)
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Cube Material"))
 		{
-			ImGui::ColorEdit3("Ambient", &(cubeMaterial->GetProperty<oglu::Color>("ambient")->r));
-			ImGui::ColorEdit3("Diffuse", &(cubeMaterial->GetProperty<oglu::Color>("diffuse")->r));
-			ImGui::ColorEdit3("Specular", &(cubeMaterial->GetProperty<oglu::Color>("specular")->r));
 			ImGui::SliderFloat("Shininess", cubeMaterial->GetProperty<float>("shininess"), 1.0f, 256.0f);
 		}
 
