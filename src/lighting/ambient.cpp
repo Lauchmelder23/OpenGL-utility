@@ -3,7 +3,7 @@
 namespace oglu
 {
 	AmbientLight::AmbientLight() :
-		color(1.f, 1.f, 1.f), intensity(1.0f)
+		color(Color::White), intensity(1.0f)
 	{
 	}
 

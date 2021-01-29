@@ -184,6 +184,12 @@ int main(int argc, char** argv)
 	// Make a square
 	oglu::VertexArray cubeDefault = oglu::MakeVertexArray(vertices, sizeof(vertices), nullptr, 0, topology, sizeof(topology));
 	oglu::SharedMaterial cubeMaterial(new oglu::Material);
+
+	//cubeMaterial->AddProperty("ambient", oglu::Color::White);
+	cubeMaterial->AddProperty("diffuse", oglu::Color::White);
+	cubeMaterial->AddProperty("specular", oglu::Color::White);
+	cubeMaterial->AddProperty("shininess", 32.f);
+
 	oglu::Object cubes[10] = { 
 		oglu::Object(cubeDefault),
 		oglu::Object(cubeDefault),
@@ -287,10 +293,10 @@ int main(int argc, char** argv)
 			shader->SetUniform("model", cube);
 			shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(cube.GetNormalMatrix()));
 
-			shader->SetUniform("material.ambient", cube.material->ambient, true);
-			shader->SetUniform("material.diffuse", cube.material->diffuse, true);
-			shader->SetUniform("material.specular", cube.material->specular, true);
-			shader->SetUniform("material.shininess", cube.material->shininess);
+			shader->SetUniform("material.ambient", cube.material->GetPropertyValue<oglu::Color>("ambient"), true);
+			shader->SetUniform("material.diffuse", cube.material->GetPropertyValue<oglu::Color>("diffuse"), true);
+			shader->SetUniform("material.specular", cube.material->GetPropertyValue<oglu::Color>("specular"), true);
+			shader->SetUniform("material.shininess", cube.material->GetPropertyValue<float>("shininess"));
 			cube.Render();
 		}
 
@@ -339,10 +345,10 @@ int main(int argc, char** argv)
 		ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 		if (ImGui::CollapsingHeader("Cube Material"))
 		{
-			ImGui::ColorEdit3("Ambient", &(cubeMaterial->ambient.r));
-			ImGui::ColorEdit3("Diffuse", &(cubeMaterial->diffuse.r));
-			ImGui::ColorEdit3("Specular", &(cubeMaterial->specular.r));
-			ImGui::SliderFloat("Shininess", &(cubeMaterial->shininess), 1.0f, 256.0f);
+			ImGui::ColorEdit3("Ambient", &(cubeMaterial->GetProperty<oglu::Color>("ambient")->r));
+			ImGui::ColorEdit3("Diffuse", &(cubeMaterial->GetProperty<oglu::Color>("diffuse")->r));
+			ImGui::ColorEdit3("Specular", &(cubeMaterial->GetProperty<oglu::Color>("specular")->r));
+			ImGui::SliderFloat("Shininess", cubeMaterial->GetProperty<float>("shininess"), 1.0f, 256.0f);
 		}
 
 		ImGui::End();

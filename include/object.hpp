@@ -15,18 +15,7 @@
 
 namespace oglu
 {
-	/**
-	 * @brief A structure representing an object's material.
-	 */
-	class OGLU_API Material
-	{
-	public:
-		Color ambient = Color::White;
-		Color diffuse = Color::White;
-		Color specular = Color::White;
-		float shininess = 32.0f;
-	};
-
+	class Material;
 	typedef std::shared_ptr<Material> SharedMaterial;
 
 	/**

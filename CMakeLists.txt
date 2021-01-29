@@ -4,7 +4,7 @@ project(OpenGLUtility)
 
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-# set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 
 set(BUILD_EXAMPLES ON CACHE BOOL "Build examples")
 set(BUILD_DOCUMENTATION ON CACHE BOOL "Generate documentation")
@@ -33,13 +33,11 @@ file(GLOB_RECURSE source_files
 	"vendor/src/*.c"
 )
 
-message(STATUS ${source_files})
-
 add_library(openglu SHARED 
 	${include_files}
 	${source_files}
 	"cpp.hint"
-)
+ "src/core.cpp")
 
 target_compile_definitions(openglu PRIVATE OGLU_BUILD_DLL)
 

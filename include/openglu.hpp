@@ -13,6 +13,7 @@
 #include <shader.hpp>
 #include <texture.hpp>
 #include <object.hpp>
+#include <material.hpp>
 #include <camera.hpp>
 
 #include <lighting/ambient.hpp>
