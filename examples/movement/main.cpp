@@ -234,6 +234,10 @@ int main(int argc, char** argv)
 	oglu::PointLight pointLight;
 	pointLight.LinkPositionToTransformable(lightSource);
 
+	oglu::SpotLight flashlight;
+	flashlight.linear = 0.09f;
+	flashlight.quadratic = 0.032f;
+
 	// Create a shader
 	oglu::Shader shader, lightSourceShader;
 	try
@@ -270,15 +274,31 @@ int main(int argc, char** argv)
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
+		flashlight.SetPosition(camera.GetPosition());
+		flashlight.direction = camera.GetFront();
+
 		shader->Use();
 
+		
 		shader->SetUniform("light.ambient", "light.ambientStrength", ambient);
+		/*
 		shader->SetUniform3fv("light.position", 1, glm::value_ptr(lightSource.GetPosition()));
 		shader->SetUniform("light.diffuse", pointLight.diffusionColor, true);
 		shader->SetUniform("light.specular", pointLight.specularColor, true);
 		shader->SetUniform("light.constant", pointLight.constant);
 		shader->SetUniform("light.linear", pointLight.linear);
 		shader->SetUniform("light.quadratic", pointLight.quadratic);
+		*/
+
+		shader->SetUniform3fv("fl.position", 1, glm::value_ptr(camera.GetPosition()));
+		shader->SetUniform3fv("fl.direction", 1, glm::value_ptr(flashlight.direction));
+		shader->SetUniform("fl.angle", glm::cos(glm::radians(flashlight.angle)));
+		shader->SetUniform("fl.outerAngle", glm::cos(glm::radians(flashlight.outerAngle)));
+		shader->SetUniform("fl.diffuse", flashlight.diffusionColor, true);
+		shader->SetUniform("fl.specular", flashlight.specularColor, true);
+		shader->SetUniform("fl.constant", flashlight.constant);
+		shader->SetUniform("fl.linear", flashlight.linear);
+		shader->SetUniform("fl.quadratic", flashlight.quadratic);
 
 		shader->SetUniform3fv("viewPos", 1, glm::value_ptr(camera.GetPosition()));
 
@@ -297,12 +317,14 @@ int main(int argc, char** argv)
 			cube.Render();
 		}
 
+		/*
 		lightSourceShader->Use();
 		lightSourceShader->SetUniformMatrix4fv("model", 1, GL_FALSE, glm::value_ptr(lightSource.GetMatrix(true)));
 		lightSourceShader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		lightSourceShader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 		lightSourceShader->SetUniform("color", pointLight.diffusionColor, true);
 		lightSource.Render();
+		*/
 
 		ImGui::Begin("Controls");
 
@@ -328,7 +350,7 @@ int main(int argc, char** argv)
 				ImGui::Separator();
 			}
 
-			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+			ImGui::SetNextItemOpen(false, ImGuiCond_Once);
 			if (ImGui::TreeNode("Point"))
 			{
 				ImGui::ColorEdit3("Diffusion", &pointLight.diffusionColor.r);
@@ -341,6 +363,27 @@ int main(int argc, char** argv)
 					ImGui::SliderFloat("Constant", &pointLight.constant, 1.0f, 4.0f);
 					ImGui::SliderFloat("Linear", &pointLight.linear, 0.0014f, 0.7f);
 					ImGui::SliderFloat("Quadratic", &pointLight.quadratic, 0.00007f, 1.8f);
+
+					ImGui::TreePop();
+				}
+
+				ImGui::TreePop();
+			}
+
+			ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+			if (ImGui::TreeNode("Flashlight"))
+			{
+				ImGui::ColorEdit3("Diffusion", &flashlight.diffusionColor.r);
+				ImGui::ColorEdit3("Specular", &flashlight.specularColor.r);
+				ImGui::SliderFloat("Angle", &flashlight.angle, 1.0f, flashlight.outerAngle - 1.0f);
+				ImGui::SliderFloat("Outer angle", &flashlight.outerAngle, flashlight.angle + 1.0f, 60.0f);
+
+				ImGui::SetNextItemOpen(true, ImGuiCond_Once);
+				if (ImGui::TreeNode("Attenuation"))
+				{
+					ImGui::SliderFloat("Constant", &flashlight.constant, 1.0f, 4.0f);
+					ImGui::SliderFloat("Linear", &flashlight.linear, 0.0014f, 0.7f);
+					ImGui::SliderFloat("Quadratic", &flashlight.quadratic, 0.00007f, 1.8f);
 
 					ImGui::TreePop();
 				}

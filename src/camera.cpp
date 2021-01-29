@@ -150,4 +150,9 @@ namespace oglu
 	{
 		return projection = glm::perspective(glm::radians(fov), aspectRatio, zNear, zFar);;
 	}
+
+	const glm::vec3& Camera::GetFront()
+	{
+		return front;
+	}
 }

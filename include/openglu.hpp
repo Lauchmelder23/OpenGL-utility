@@ -18,6 +18,7 @@
 
 #include <lighting/ambient.hpp>
 #include <lighting/point.hpp>
+#include <lighting/spotlight.hpp>
 
 namespace oglu
 {

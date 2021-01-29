@@ -75,6 +75,8 @@ namespace oglu
 		 */
 		float* GetPositionPointer();
 
+		void SetPosition(const glm::vec3& position);
+
 	public:
 		// TODO: Does this split make sense? I'll keep it for now
 		Color diffusionColor;	///< Diffusion color of the light
@@ -84,7 +86,7 @@ namespace oglu
 		float linear;			///< Coefficient of the linear attenuation term
 		float quadratic;		///< Coefficient of the quadratic attenuation term
 
-	private:
+	protected:
 		glm::vec3* position;	///< Position of the light
 		bool isLinked;			///< Wether the position is linked to an object or not
 	};

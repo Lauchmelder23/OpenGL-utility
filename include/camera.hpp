@@ -210,6 +210,8 @@ namespace oglu
 		 */
 		const glm::mat4& GetProjection();
 
+		const glm::vec3& GetFront();
+
 	public:
 		float fov;					///< FOV of the camera
 		float aspectRatio;			///< Aspect ratio of the camera

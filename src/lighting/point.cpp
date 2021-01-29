@@ -21,7 +21,7 @@ namespace oglu
 		position(new glm::vec3(0.0f)), diffusionColor(other.diffusionColor), specularColor(other.specularColor),
 		constant(1.0f), linear(0.09f), quadratic(0.032f), isLinked(false)
 	{
-		memcpy(this->position, position, sizeof(glm::vec3));
+		memcpy(this->position, other.position, sizeof(glm::vec3));
 	}
 
 	PointLight::~PointLight()
@@ -50,5 +50,11 @@ namespace oglu
 	float* PointLight::GetPositionPointer()
 	{
 		return &((*position)[0]);
+	}
+
+	void PointLight::SetPosition(const glm::vec3& position)
+	{
+		if (!isLinked)
+			memcpy(this->position, &position, sizeof(glm::vec3));
 	}
 }
