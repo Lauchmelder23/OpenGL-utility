@@ -131,7 +131,7 @@ int main(int argc, char** argv)
 	flashlight.linear = 0.022f;
 	flashlight.quadratic = 0.0019f;
 	flashlight.angle = 18.0f;
-	flashlight.outerAngle = 25.0f;
+	flashlight.outerAngle = 24.9f;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -143,6 +143,8 @@ int main(int argc, char** argv)
 
 		shader->Use();
 
+		shader->SetUniformMatrix3fv("normal", 1, GL_FALSE, glm::value_ptr(model.GetNormalMatrix()));
+		shader->SetUniformMatrix4fv("model", 1, GL_FALSE, glm::value_ptr(model.GetMatrix()));
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
 
@@ -155,6 +157,8 @@ int main(int argc, char** argv)
 		shader->SetUniform("flashlight.quadratic", flashlight.quadratic);
 
 		model.Render(shader);
+		
+		model.Rotate(1.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

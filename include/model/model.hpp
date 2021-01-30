@@ -5,13 +5,14 @@
 
 #include <core.hpp>
 #include <shader.hpp>
+#include <object.hpp>
 #include <model/mesh.hpp>
 
 #include <assimp/scene.h>
 
 namespace oglu
 {
-	class OGLU_API Model
+	class OGLU_API Model : public Transformable
 	{
 	public:
 		Model(const std::string& path);
