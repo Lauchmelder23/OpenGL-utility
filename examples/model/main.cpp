@@ -6,9 +6,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
 
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
-
 bool firstMouse = true;
 bool escaped = false;
 double lastX = 0.0f;
@@ -60,13 +57,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.Forward(0.1f);
+		camera.SetPosition(camera.GetPosition() + 0.1f * glm::normalize(glm::vec3(camera.GetFront().x, 0.0f, camera.GetFront().z)));
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		camera.Sideways(-0.1f);
 
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.Forward(-0.1f);
+		camera.SetPosition(camera.GetPosition() - 0.1f * glm::normalize(glm::vec3(camera.GetFront().x, 0.0f, camera.GetFront().z)));
 
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera.Sideways(0.1f);
@@ -91,7 +88,7 @@ int main(int argc, char** argv)
 	int windowWidth = (int)(16.f / 9.f * windowHeight);
 
 	// Create Window
-	GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "First Person Movement Test", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Model loading test", NULL, NULL);
 	if (window == nullptr)
 	{
 		std::cerr << "Failed to create GLFW window" << std::endl;
@@ -127,17 +124,37 @@ int main(int argc, char** argv)
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	oglu::Color bgColor = oglu::Color::Black;
-	lightSource.SetPosition(1.0f, 1.0f, -1.0f);
+
+	oglu::Model model("assets/backpack.obj");
+
+	oglu::SpotLight flashlight;
+	flashlight.linear = 0.022f;
+	flashlight.quadratic = 0.0019f;
+	flashlight.angle = 18.0f;
+	flashlight.outerAngle = 25.0f;
 
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
 		oglu::ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT, bgColor);
 
+		flashlight.SetPosition(camera.GetPosition());
+		flashlight.direction = camera.GetFront();
+
 		shader->Use();
 
 		shader->SetUniformMatrix4fv("view", 1, GL_FALSE, glm::value_ptr(camera.GetMatrix()));
 		shader->SetUniformMatrix4fv("projection", 1, GL_FALSE, glm::value_ptr(camera.GetProjection()));
+
+		shader->SetUniform3fv("flashlight.position", 1, flashlight.GetPositionPointer());
+		shader->SetUniform3fv("flashlight.direction", 1, glm::value_ptr(flashlight.direction));
+		shader->SetUniform("flashlight.angle", glm::cos(glm::radians(flashlight.angle)));
+		shader->SetUniform("flashlight.outerAngle", glm::cos(glm::radians(flashlight.outerAngle)));
+		shader->SetUniform("flashlight.constant", flashlight.constant);
+		shader->SetUniform("flashlight.linear", flashlight.linear);
+		shader->SetUniform("flashlight.quadratic", flashlight.quadratic);
+
+		model.Render(shader);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

@@ -45,7 +45,7 @@ namespace oglu
 		 *
 		 * @return A shared pointer to the texture.
 		 */
-		friend Texture OGLU_API MakeTexture(const char* filename);
+		friend Texture OGLU_API MakeTexture(const char* filename, const std::string& name);
 
 		/**
 		 * @brief Copy constructor.
@@ -88,7 +88,11 @@ namespace oglu
 		 *
 		 * @param[in] vertexShaderFile Filepath to the image file
 		 */
-		AbstractTexture(const char* filename);
+		AbstractTexture(const char* filename, const std::string& name);
+
+	public:
+		std::string name;
+		std::string filepath;
 
 	private:
 		int width;		///< Width of the loaded image
@@ -97,7 +101,7 @@ namespace oglu
 		GLuint texture;	///< OpenGL handle to the texture
 	};
 
-	Texture OGLU_API MakeTexture(const char* filename);
+	Texture OGLU_API MakeTexture(const char* filename, const std::string& name);
 }
 
 #endif

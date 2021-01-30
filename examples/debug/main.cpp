@@ -99,8 +99,8 @@ int main(int argc, char** argv)
 	}
 
 	// Create a texture
-	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg");
-	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png");
+	oglu::Texture crate = oglu::MakeTexture("assets/crate.jpg", "crate");
+	oglu::Texture opengl = oglu::MakeTexture("assets/opengl.png", "opengl");
 
 	oglu::Camera camera;
 

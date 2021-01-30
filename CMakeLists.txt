@@ -24,6 +24,8 @@ if(WIN32)
 	endif()
 endif()
 
+add_subdirectory("vendor/assimp")
+
 file(GLOB_RECURSE include_files 
 	"include/*.hpp"
 )
@@ -37,18 +39,27 @@ add_library(openglu SHARED
 	${include_files}
 	${source_files}
 	"cpp.hint"
- "src/core.cpp")
+	"src/core.cpp"
+ )
 
 target_compile_definitions(openglu PRIVATE OGLU_BUILD_DLL)
 
 include_directories(
 	include
 	vendor/include
+	vendor/assimp/include
+	${CMAKE_BINARY_DIR}/vendor/assimp/include
 )
 
 target_include_directories(openglu PUBLIC
 	include
 	vendor/include
+	vendor/assimp/include
+	${CMAKE_BINARY_DIR}/vendor/assimp/include
+)
+
+target_link_libraries(openglu PUBLIC
+	assimp
 )
 
 if(${BUILD_DOCUMENTATION})

@@ -29,6 +29,6 @@ add_custom_command(TARGET model POST_BUILD
 
 if(WIN32)
 	add_custom_command(TARGET model POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:openglu> $<TARGET_FILE:glfw> $<TARGET_FILE_DIR:model>
+		COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:openglu> $<TARGET_FILE:glfw> $<TARGET_FILE:assimp> $<TARGET_FILE_DIR:model>
 	)
 endif()

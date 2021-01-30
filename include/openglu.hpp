@@ -20,6 +20,9 @@
 #include <lighting/point.hpp>
 #include <lighting/spotlight.hpp>
 
+#include <model/mesh.hpp>
+#include <model/model.hpp>
+
 namespace oglu
 {
 	/**

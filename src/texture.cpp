@@ -13,7 +13,7 @@ namespace oglu
 	}
 
 	AbstractTexture::AbstractTexture(const AbstractTexture& other) :
-		width(other.width), height(other.height), nrChannels(other.nrChannels), texture(other.texture)
+		width(other.width), height(other.height), nrChannels(other.nrChannels), texture(other.texture), name(other.name)
 	{
 	}
 
@@ -22,7 +22,8 @@ namespace oglu
 		glDeleteBuffers(1, &texture);
 	}
 
-	AbstractTexture::AbstractTexture(const char* filename)
+	AbstractTexture::AbstractTexture(const char* filename, const std::string& name) :
+		name(name), filepath(filename)
 	{
 		stbi_set_flip_vertically_on_load(true);
 		stbi_uc* data = stbi_load(filename, &width, &height, &nrChannels, 0);
@@ -57,9 +58,9 @@ namespace oglu
 		stbi_image_free(data);
 	}
 
-	Texture MakeTexture(const char* filename)
+	Texture MakeTexture(const char* filename, const std::string& name)
 	{
-		return std::shared_ptr<AbstractTexture>(new AbstractTexture(filename));
+		return std::shared_ptr<AbstractTexture>(new AbstractTexture(filename, name));
 	}
 
 	void AbstractTexture::Bind()
