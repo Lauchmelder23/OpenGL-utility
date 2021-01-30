@@ -172,8 +172,8 @@ int main(int argc, char** argv)
 
 	//cubeMaterial->AddProperty("ambient", oglu::Color::White);
 	cubeMaterial->AddProperty("shininess", 32.f);
-	cubeMaterial->AddProperty("diffuse", oglu::MakeTexture("assets/metalbox_diffuse.png"));
-	cubeMaterial->AddProperty("specular", oglu::MakeTexture("assets/metalbox_bump.png"));
+	cubeMaterial->AddProperty("diffuse", oglu::MakeTexture("assets/tiles_diffuse.jpg"));
+	cubeMaterial->AddProperty("specular", oglu::MakeTexture("assets/tiles_bump.jpg"));
 
 	oglu::Object cubes[10] = { 
 		oglu::Object(cubeDefault),
